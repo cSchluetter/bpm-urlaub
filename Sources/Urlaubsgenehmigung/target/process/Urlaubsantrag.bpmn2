@@ -4,36 +4,24 @@
   <bpmn2:itemDefinition id="ItemDefinition_1" isCollection="false" structureRef="String"/>
   <bpmn2:itemDefinition id="ItemDefinition_2" isCollection="false" structureRef="Integer"/>
   <bpmn2:itemDefinition id="ItemDefinition_3" isCollection="false" structureRef="Boolean"/>
-  <bpmn2:itemDefinition id="ItemDefinition_39" isCollection="false" structureRef="de.whs.urlaubsgenehmigung.Person"/>
-  <bpmn2:process id="de.whs.urlaubsgenehmigung.Urlaubsantrag" tns:packageName="defaultPackage" name="Urlaubsantrag" isExecutable="true" processType="Private">
+  <bpmn2:itemDefinition id="ItemDefinition_247" isCollection="false" structureRef="de.whs.holiday.Application"/>
+  <bpmn2:message id="ApplicationDenied" itemRef="ItemDefinition_1" name="ApplicationDenied"/>
+  <bpmn2:process id="de.whs.holiday.Urlaubsantrag" tns:packageName="defaultPackage" name="Urlaubsantrag" isExecutable="true" processType="Private">
     <bpmn2:extensionElements>
-      <tns:import name="de.whs.urlaubsgenehmigung.Person"/>
+      <tns:import name="de.whs.holiday.Application"/>
     </bpmn2:extensionElements>
-    <bpmn2:property id="person" itemSubjectRef="ItemDefinition_39" name="person"/>
+    <bpmn2:property id="application" itemSubjectRef="ItemDefinition_247" name="application"/>
     <bpmn2:startEvent id="StartEvent_1" name="StartProcess">
       <bpmn2:outgoing>SequenceFlow_7</bpmn2:outgoing>
     </bpmn2:startEvent>
-    <bpmn2:endEvent id="EndEvent_1" name="End Event 1"/>
-    <bpmn2:exclusiveGateway id="ExclusiveGateway_2" name="Prüfung > 20 Werktage" gatewayDirection="Diverging">
-      <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_5</bpmn2:outgoing>
-      <bpmn2:outgoing>SequenceFlow_6</bpmn2:outgoing>
-    </bpmn2:exclusiveGateway>
-    <bpmn2:scriptTask id="ScriptTask_2" name="Genehmiger1">
-      <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
-    </bpmn2:scriptTask>
-    <bpmn2:scriptTask id="ScriptTask_3" name="Leiter Personalabteilung">
-      <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
-    </bpmn2:scriptTask>
-    <bpmn2:sequenceFlow id="SequenceFlow_5" tns:priority="1" name="Immer ausführen" sourceRef="ExclusiveGateway_2" targetRef="ScriptTask_2">
-      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_15" language="http://www.java.com/java">return true;</bpmn2:conditionExpression>
-    </bpmn2:sequenceFlow>
-    <bpmn2:sequenceFlow id="SequenceFlow_6" tns:priority="1" name="> 20 Tage" sourceRef="ExclusiveGateway_2" targetRef="ScriptTask_3">
-      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_17" language="http://www.java.com/java">return person.getAnzahlUrlaubsTage() > 20;</bpmn2:conditionExpression>
-    </bpmn2:sequenceFlow>
-    <bpmn2:userTask id="UserTask_2" name="Antrag stellen">
+    <bpmn2:userTask id="UserTask_2" name="Apply for holiday">
+      <bpmn2:extensionElements>
+        <tns:onExit-script scriptFormat="http://www.java.com/java">
+          <tns:script>System.out.println(application);</tns:script>
+        </tns:onExit-script>
+      </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_9</bpmn2:outgoing>
       <bpmn2:ioSpecification id="InputOutputSpecification_2">
         <bpmn2:dataInput id="DataInput_9" itemSubjectRef="ItemDefinition_1" name="TaskName"/>
         <bpmn2:dataInput id="DataInput_10" itemSubjectRef="ItemDefinition_2" name="Priority"/>
@@ -42,8 +30,7 @@
         <bpmn2:dataInput id="DataInput_13" itemSubjectRef="ItemDefinition_3" name="Skippable"/>
         <bpmn2:dataInput id="DataInput_14" itemSubjectRef="ItemDefinition_1" name="Content"/>
         <bpmn2:dataInput id="DataInput_15" itemSubjectRef="ItemDefinition_1" name="Locale"/>
-        <bpmn2:dataOutput id="DataOutput_1" itemSubjectRef="ItemDefinition_39" name="Name"/>
-        <bpmn2:dataOutput id="DataOutput_2" itemSubjectRef="ItemDefinition_39" name="AnzahlUrlaubstage"/>
+        <bpmn2:dataOutput id="DataOutput_4" itemSubjectRef="ItemDefinition_247" name="application"/>
         <bpmn2:inputSet id="_InputSet_5">
           <bpmn2:dataInputRefs>DataInput_9</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>DataInput_10</bpmn2:dataInputRefs>
@@ -54,14 +41,13 @@
           <bpmn2:dataInputRefs>DataInput_15</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
         <bpmn2:outputSet id="OutputSet_2" name="Output Set">
-          <bpmn2:dataOutputRefs>DataOutput_1</bpmn2:dataOutputRefs>
-          <bpmn2:dataOutputRefs>DataOutput_2</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_4</bpmn2:dataOutputRefs>
         </bpmn2:outputSet>
       </bpmn2:ioSpecification>
       <bpmn2:dataInputAssociation id="DataInputAssociation_9">
         <bpmn2:targetRef>DataInput_9</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_8">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_18">AntragStellen</bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_18">applyForHoliday</bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_19">DataInput_9</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -81,7 +67,7 @@
       <bpmn2:dataInputAssociation id="DataInputAssociation_13">
         <bpmn2:targetRef>DataInput_13</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_12">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_26">true</bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_26">false</bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_27">DataInput_13</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -95,89 +81,190 @@
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_31">DataInput_15</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
-      <bpmn2:dataOutputAssociation id="DataOutputAssociation_1">
-        <bpmn2:sourceRef>DataOutput_1</bpmn2:sourceRef>
-        <bpmn2:targetRef>person</bpmn2:targetRef>
-      </bpmn2:dataOutputAssociation>
-      <bpmn2:dataOutputAssociation id="DataOutputAssociation_2">
-        <bpmn2:sourceRef>DataOutput_2</bpmn2:sourceRef>
-        <bpmn2:targetRef>person</bpmn2:targetRef>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_4">
+        <bpmn2:sourceRef>DataOutput_4</bpmn2:sourceRef>
+        <bpmn2:targetRef>application</bpmn2:targetRef>
       </bpmn2:dataOutputAssociation>
       <bpmn2:potentialOwner id="PotentialOwner_1">
         <bpmn2:resourceAssignmentExpression id="ResourceAssignmentExpression_1">
-          <bpmn2:formalExpression id="FormalExpression_32">AntragsSteller</bpmn2:formalExpression>
+          <bpmn2:formalExpression id="FormalExpression_32">#{applicant}</bpmn2:formalExpression>
         </bpmn2:resourceAssignmentExpression>
       </bpmn2:potentialOwner>
     </bpmn2:userTask>
     <bpmn2:sequenceFlow id="SequenceFlow_7" tns:priority="1" sourceRef="StartEvent_1" targetRef="UserTask_2"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_8" tns:priority="1" sourceRef="UserTask_2" targetRef="ExclusiveGateway_2"/>
+    <bpmn2:endEvent id="EndEvent_2" name="Approved">
+      <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_9" tns:priority="1" sourceRef="UserTask_2" targetRef="UserTask_5"/>
+    <bpmn2:userTask id="UserTask_5" name="Approve">
+      <bpmn2:extensionElements>
+        <tns:onExit-script scriptFormat="http://www.java.com/java">
+          <tns:script>System.out.println(application.isDenied());</tns:script>
+        </tns:onExit-script>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_12</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_11">
+        <bpmn2:dataInput id="DataInput_37" itemSubjectRef="ItemDefinition_1" name="TaskName"/>
+        <bpmn2:dataInput id="DataInput_38" itemSubjectRef="ItemDefinition_2" name="Priority"/>
+        <bpmn2:dataInput id="DataInput_39" itemSubjectRef="ItemDefinition_1" name="Comment"/>
+        <bpmn2:dataInput id="DataInput_40" itemSubjectRef="ItemDefinition_1" name="GroupId"/>
+        <bpmn2:dataInput id="DataInput_41" itemSubjectRef="ItemDefinition_3" name="Skippable"/>
+        <bpmn2:dataInput id="DataInput_42" itemSubjectRef="ItemDefinition_1" name="Content"/>
+        <bpmn2:dataInput id="DataInput_43" itemSubjectRef="ItemDefinition_1" name="Locale"/>
+        <bpmn2:dataInput id="DataInput_45" itemSubjectRef="ItemDefinition_247" name="application"/>
+        <bpmn2:dataOutput id="DataOutput_5" itemSubjectRef="ItemDefinition_247" name="application"/>
+        <bpmn2:inputSet id="_InputSet_10">
+          <bpmn2:dataInputRefs>DataInput_37</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_38</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_39</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_40</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_41</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_42</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_43</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_45</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_10" name="Output Set">
+          <bpmn2:dataOutputRefs>DataOutput_5</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_37">
+        <bpmn2:targetRef>DataInput_37</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_49">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_106">approve</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_107">DataInput_37</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_38">
+        <bpmn2:targetRef>DataInput_38</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_50">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_108">1</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_109">DataInput_38</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_39">
+        <bpmn2:targetRef>DataInput_39</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_40">
+        <bpmn2:targetRef>DataInput_40</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_41">
+        <bpmn2:targetRef>DataInput_41</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_53">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_114">false</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_115">DataInput_41</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_42">
+        <bpmn2:targetRef>DataInput_42</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_43">
+        <bpmn2:targetRef>DataInput_43</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_55">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_118">en-UK</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_119">DataInput_43</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_45">
+        <bpmn2:sourceRef>application</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_45</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_5">
+        <bpmn2:sourceRef>DataOutput_5</bpmn2:sourceRef>
+        <bpmn2:targetRef>application</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:potentialOwner id="PotentialOwner_4">
+        <bpmn2:resourceAssignmentExpression id="ResourceAssignmentExpression_4">
+          <bpmn2:formalExpression id="FormalExpression_120">#{approver}</bpmn2:formalExpression>
+        </bpmn2:resourceAssignmentExpression>
+      </bpmn2:potentialOwner>
+    </bpmn2:userTask>
+    <bpmn2:endEvent id="EndEvent_3" name="Denied">
+      <bpmn2:incoming>SequenceFlow_11</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_10" tns:priority="1" name="approved" sourceRef="InclusiveGateway_1" targetRef="EndEvent_2">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_121" language="http://www.java.com/java">return !application.isDenied();</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_11" tns:priority="1" name="denied" sourceRef="InclusiveGateway_1" targetRef="EndEvent_3">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_122" language="http://www.java.com/java">return application.isDenied();</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_12" tns:priority="1" sourceRef="UserTask_5" targetRef="InclusiveGateway_1"/>
+    <bpmn2:inclusiveGateway id="InclusiveGateway_1" name="Approvement" gatewayDirection="Diverging">
+      <bpmn2:incoming>SequenceFlow_12</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_11</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
+    </bpmn2:inclusiveGateway>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="de.whs.urlaubsgenehmigung.Urlaubsantrag">
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="de.whs.holiday.Urlaubsantrag">
       <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="StartEvent_1">
-        <dc:Bounds height="36.0" width="36.0" x="239.0" y="45.0"/>
-        <bpmndi:BPMNLabel>
-          <dc:Bounds height="15.0" width="71.0" x="222.0" y="81.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_EndEvent_1" bpmnElement="EndEvent_1">
-        <dc:Bounds height="36.0" width="36.0" x="490.0" y="210.0"/>
-        <bpmndi:BPMNLabel>
-          <dc:Bounds height="15.0" width="65.0" x="476.0" y="246.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_2" bpmnElement="ExclusiveGateway_2" isMarkerVisible="true">
-        <dc:Bounds height="50.0" width="50.0" x="232.0" y="218.0"/>
-        <bpmndi:BPMNLabel>
-          <dc:Bounds height="30.0" width="73.0" x="221.0" y="268.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_ScriptTask_2" bpmnElement="ScriptTask_2">
-        <dc:Bounds height="50.0" width="110.0" x="70.0" y="330.0"/>
-        <bpmndi:BPMNLabel>
-          <dc:Bounds height="15.0" width="76.0" x="87.0" y="347.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_ScriptTask_3" bpmnElement="ScriptTask_3">
-        <dc:Bounds height="50.0" width="110.0" x="348.0" y="330.0"/>
-        <bpmndi:BPMNLabel>
-          <dc:Bounds height="30.0" width="101.0" x="352.0" y="340.0"/>
+        <dc:Bounds height="36.0" width="36.0" x="90.0" y="122.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_1">
+          <dc:Bounds height="15.0" width="71.0" x="73.0" y="158.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_UserTask_2" bpmnElement="UserTask_2">
-        <dc:Bounds height="50.0" width="110.0" x="202.0" y="140.0"/>
-        <bpmndi:BPMNLabel>
-          <dc:Bounds height="15.0" width="75.0" x="219.0" y="157.0"/>
+        <dc:Bounds height="50.0" width="110.0" x="201.0" y="115.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_6">
+          <dc:Bounds height="15.0" width="88.0" x="212.0" y="132.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="SequenceFlow_5" sourceElement="BPMNShape_ExclusiveGateway_2" targetElement="BPMNShape_ScriptTask_2">
-        <di:waypoint xsi:type="dc:Point" x="257.0" y="268.0"/>
-        <di:waypoint xsi:type="dc:Point" x="257.0" y="288.0"/>
-        <di:waypoint xsi:type="dc:Point" x="125.0" y="288.0"/>
-        <di:waypoint xsi:type="dc:Point" x="125.0" y="330.0"/>
-        <bpmndi:BPMNLabel>
-          <dc:Bounds height="30.0" width="56.0" x="169.0" y="233.0"/>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_2" bpmnElement="EndEvent_2">
+        <dc:Bounds height="36.0" width="36.0" x="801.0" y="123.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_2">
+          <dc:Bounds height="15.0" width="51.0" x="794.0" y="159.0"/>
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="SequenceFlow_6" sourceElement="BPMNShape_ExclusiveGateway_2" targetElement="BPMNShape_ScriptTask_3">
-        <di:waypoint xsi:type="dc:Point" x="257.0" y="268.0"/>
-        <di:waypoint xsi:type="dc:Point" x="257.0" y="288.0"/>
-        <di:waypoint xsi:type="dc:Point" x="403.0" y="288.0"/>
-        <di:waypoint xsi:type="dc:Point" x="403.0" y="330.0"/>
-        <bpmndi:BPMNLabel>
-          <dc:Bounds height="15.0" width="55.0" x="298.0" y="234.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_5" bpmnElement="UserTask_5">
+        <dc:Bounds height="50.0" width="110.0" x="380.0" y="115.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_3">
+          <dc:Bounds height="15.0" width="44.0" x="413.0" y="132.0"/>
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_3" bpmnElement="EndEvent_3">
+        <dc:Bounds height="36.0" width="36.0" x="800.0" y="212.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_5">
+          <dc:Bounds height="15.0" width="40.0" x="798.0" y="248.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_InclusiveGateway_1" bpmnElement="InclusiveGateway_1" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="550.0" y="115.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="15.0" width="72.0" x="539.0" y="165.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_UserTask_2">
-        <di:waypoint xsi:type="dc:Point" x="257.0" y="81.0"/>
-        <di:waypoint xsi:type="dc:Point" x="257.0" y="110.0"/>
-        <di:waypoint xsi:type="dc:Point" x="257.0" y="140.0"/>
-        <bpmndi:BPMNLabel/>
+        <di:waypoint xsi:type="dc:Point" x="126.0" y="140.0"/>
+        <di:waypoint xsi:type="dc:Point" x="201.0" y="140.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_9"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_8" bpmnElement="SequenceFlow_8" sourceElement="BPMNShape_UserTask_2" targetElement="BPMNShape_ExclusiveGateway_2">
-        <di:waypoint xsi:type="dc:Point" x="257.0" y="190.0"/>
-        <di:waypoint xsi:type="dc:Point" x="257.0" y="218.0"/>
-        <bpmndi:BPMNLabel/>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_9" bpmnElement="SequenceFlow_9" sourceElement="BPMNShape_UserTask_2" targetElement="BPMNShape_UserTask_5">
+        <di:waypoint xsi:type="dc:Point" x="311.0" y="140.0"/>
+        <di:waypoint xsi:type="dc:Point" x="345.0" y="140.0"/>
+        <di:waypoint xsi:type="dc:Point" x="380.0" y="140.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_7"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="SequenceFlow_10" sourceElement="BPMNShape_InclusiveGateway_1" targetElement="BPMNShape_EndEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="600.0" y="140.0"/>
+        <di:waypoint xsi:type="dc:Point" x="700.0" y="140.0"/>
+        <di:waypoint xsi:type="dc:Point" x="801.0" y="141.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_8">
+          <dc:Bounds height="15.0" width="51.0" x="676.0" y="141.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_11" bpmnElement="SequenceFlow_11" sourceElement="BPMNShape_InclusiveGateway_1" targetElement="BPMNShape_EndEvent_3">
+        <di:waypoint xsi:type="dc:Point" x="575.0" y="165.0"/>
+        <di:waypoint xsi:type="dc:Point" x="575.0" y="230.0"/>
+        <di:waypoint xsi:type="dc:Point" x="800.0" y="230.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_10">
+          <dc:Bounds height="15.0" width="38.0" x="637.0" y="231.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_12" bpmnElement="SequenceFlow_12" sourceElement="BPMNShape_UserTask_5" targetElement="BPMNShape_InclusiveGateway_1">
+        <di:waypoint xsi:type="dc:Point" x="490.0" y="140.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="140.0"/>
+        <di:waypoint xsi:type="dc:Point" x="550.0" y="140.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_11"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
