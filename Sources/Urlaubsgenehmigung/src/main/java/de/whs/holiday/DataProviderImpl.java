@@ -13,6 +13,9 @@ public class DataProviderImpl implements DataProvider
 		Console.writeLine("Days: ");
 		application.setDays(Integer.parseInt(Console.readLine()));
 		
+		Console.writeLine("Holiday type?");	
+		application.setHolidaytype(Console.readLine());
+		
 		if (application.getApplicant().toUpperCase().charAt(0) < 'L')
 			application.setAdvisor("machfrei");
 		else
@@ -22,6 +25,7 @@ public class DataProviderImpl implements DataProvider
 		return application;
 	}
 
+	//superior approve
 	@Override
 	public Application checkForApprovement(Application app) {
 		String text = String.format("%s wants %s days holiday", app.getApplicant(), app.getDays());
@@ -40,6 +44,7 @@ public class DataProviderImpl implements DataProvider
 		return app;
 	}
 
+	//head of hr approve
 	@Override
 	public Application chechForHrApprovement(Application app) {
 		String text = String.format("%s wants %s days holiday", app.getApplicant(), app.getDays());
@@ -58,11 +63,11 @@ public class DataProviderImpl implements DataProvider
 		return app;
 	}
 
+	//Advisor approve
 	@Override
 	public Application checkForAvailableDays(Application app) {
-		String text = String.format("Have %s engough free days?", app.getApplicant());
+		String text = String.format("Have %s engough free days? (y, n)", app.getApplicant());
 		Console.writeLine(text);
-		Console.writeLine("Do you want to approve? (y, n): ");
 		String input = Console.readLine();
 		
 		app.setDenied(input.toLowerCase().startsWith("n"));
@@ -75,6 +80,7 @@ public class DataProviderImpl implements DataProvider
 		return app;
 	}
 
+	//co superior approve
 	@Override
 	public Application checkForCoSuperiorApprovment(Application app) {
 		String text = String.format("%s wants %s days holiday", app.getApplicant(), app.getDays());

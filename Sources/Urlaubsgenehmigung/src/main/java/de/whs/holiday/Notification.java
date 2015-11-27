@@ -25,7 +25,7 @@ public class Notification {
 		this.message = message;
 	}
 
-	private String from;
+	private String from = "System";
 	private String to;
-	private String message;
+	private String message = "Automatisch genehmigt";
 }

@@ -26,7 +26,6 @@ public class HumanTaskWorkItemHandler implements WorkItemHandler {
 		System.out.println("executeWorkItem: " + workItem);
 
 		String taskName = (String) workItem.getParameter("TaskName");
-		System.out.println("Task-Name: " + taskName);
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		Application app;

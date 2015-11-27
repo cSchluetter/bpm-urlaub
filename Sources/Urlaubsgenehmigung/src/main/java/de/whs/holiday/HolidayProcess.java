@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kie.api.KieServices;
+import org.kie.api.logger.KieRuntimeLogger;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
@@ -29,13 +30,17 @@ public class HolidayProcess {
 			KieContainer kContainer = ks.getKieClasspathContainer();
 			KieSession kSession = kContainer.newKieSession("ksession-process");
 
-
+			KieRuntimeLogger logger = ks.getLoggers().newFileLogger(kSession, "workflowLog");
+			
+			
 			kSession.getWorkItemManager().registerWorkItemHandler("Human Task", new HumanTaskWorkItemHandler(dataProvider));
 			kSession.getWorkItemManager().registerWorkItemHandler("Notification", new NotificationWorkItemHandler());
 
+			
 
 			// start a new process instance
 			kSession.startProcess("de.whs.holiday.Urlaubsantrag", getParams());
+			logger.close();
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
