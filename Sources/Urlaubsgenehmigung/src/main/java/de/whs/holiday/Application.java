@@ -60,23 +60,55 @@ public class Application {
 	}
 
 	public String getSuperiorOfApplicant() {
-		if (applicant.equals("detuwas"))
-			return "dechef";
-		if (applicant.equals("antje"))
-			return "ennel";
-
-		if (applicant.equals("dechef") || applicant.equals("ennel")
-				|| applicant.equals("stenno"))
-			return "verkauf";
-
-		if (applicant.equals("urlaub") || applicant.equals("machfrei"))
-			return "stellein";
-
-		if (applicant.equals("stellein") || applicant.equals("verkauf")
-				|| applicant.equals("auchda") || applicant.equals("vizeboss"))
-			return "oberboss";
-
-		throw new RuntimeException("Cannot resolve superior of " + applicant);
+//		if (applicant.equals("detuwas"))
+//			return "dechef";
+//		if (applicant.equals("antje"))
+//			return "ennel";
+//
+//		if (applicant.equals("dechef") || applicant.equals("ennel")
+//				|| applicant.equals("stenno"))
+//			return "verkauf";
+//
+//		if (applicant.equals("urlaub") || applicant.equals("machfrei"))
+//			return "stellein";
+//
+//		if (applicant.equals("stellein") || applicant.equals("verkauf")
+//				|| applicant.equals("auchda") || applicant.equals("vizeboss"))
+//			return "oberboss";
+//
+//		throw new RuntimeException("Cannot resolve superior of " + applicant);
+		
+		 Superiors s = new Superiors();
+	        if (applicant.equals("detuwas")) {
+	            s.superior = "dechef";
+	            s.coSuperior = "verkauf";
+	        } 
+	        else if (applicant.equals("antje")) {
+	            s.superior = "ennel";
+	            s.coSuperior = "verkauf";
+	        }
+	        else if (applicant.equals("dechef") || applicant.equals("ennel") || applicant.equals("stenno")) {
+	            s.superior= "verkauf";
+	            s.coSuperior = "oberboss";
+	        }
+	        else if (applicant.equals("urlaub") || applicant.equals("machfrei")) {
+	            s.superior= "stellein";
+	            s.coSuperior = "oberboss";
+	        } 
+	        else if (applicant.equals("stellein") || applicant.equals("verkauf") ||
+	                applicant.equals("auchda") || applicant.equals("vizeboss")) {
+	            s.superior = "oberboss";
+	            s.coSuperior = "vizeboss";
+	        }
+	        else if (applicant.equals("oberboss")) {
+	            s.superior = "vizeboss";
+	            s.coSuperior = "oberboss";
+	        }
+	        else
+	            throw new RuntimeException("Cannot resolve superior of " + applicant);
+	        
+	        return s.superior;
+		
 	}
 
 	public String getAdvisor() {
@@ -99,4 +131,46 @@ public class Application {
 
 		return isDenied;
 	}
+	
+	public boolean applicantIsBoardMember(){
+		return applicant.equals("oberboss") || applicant.equals("vizeboss") || applicant.equalsIgnoreCase("auchda");
+	}
+	
+	private class Superiors {
+        public String superior;
+        public String coSuperior;
+    }
+    
+    private Superiors getSuperior(String applicant) {
+        Superiors s = new Superiors();
+        if (applicant.equals("detuwas")) {
+            s.superior = "dechef";
+            s.coSuperior = "verkauf";
+        } 
+        else if (applicant.equals("antje")) {
+            s.superior = "ennel";
+            s.coSuperior = "verkauf";
+        }
+        else if (applicant.equals("dechef") || applicant.equals("ennel") || applicant.equals("stenno")) {
+            s.superior= "verkauf";
+            s.coSuperior = "oberboss";
+        }
+        else if (applicant.equals("urlaub") || applicant.equals("machfrei")) {
+            s.superior= "stellein";
+            s.coSuperior = "oberboss";
+        } 
+        else if (applicant.equals("stellein") || applicant.equals("verkauf") ||
+                applicant.equals("auchda") || applicant.equals("vizeboss")) {
+            s.superior = "oberboss";
+            s.coSuperior = "vizeboss";
+        }
+        else if (applicant.equals("oberboss")) {
+            s.superior = "vizeboss";
+            s.coSuperior = "oberboss";
+        }
+        else
+            throw new RuntimeException("Cannot resolve superior of " + applicant);
+        
+        return s;
+    }
 }
