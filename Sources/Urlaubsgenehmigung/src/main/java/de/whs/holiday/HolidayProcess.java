@@ -29,8 +29,10 @@ public class HolidayProcess {
 			KieContainer kContainer = ks.getKieClasspathContainer();
 			KieSession kSession = kContainer.newKieSession("ksession-process");
 
-			HumanTaskWorkItemHandler handler = new HumanTaskWorkItemHandler(dataProvider);
-			kSession.getWorkItemManager().registerWorkItemHandler("Human Task", handler);
+
+			kSession.getWorkItemManager().registerWorkItemHandler("Human Task", new HumanTaskWorkItemHandler(dataProvider));
+			kSession.getWorkItemManager().registerWorkItemHandler("Notification", new NotificationWorkItemHandler());
+
 
 			// start a new process instance
 			kSession.startProcess("de.whs.holiday.Urlaubsantrag", getParams());

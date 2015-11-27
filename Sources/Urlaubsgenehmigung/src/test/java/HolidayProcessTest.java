@@ -38,6 +38,12 @@ public class HolidayProcessTest {
 				// TODO Auto-generated method stub
 				return null;
 			}
+
+			@Override
+			public Application checkForCoSuperiorApprovment(Application app) {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 		
 		HolidayProcess target = new HolidayProcess(fakeProvider);

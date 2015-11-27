@@ -31,6 +31,12 @@ public class DataProviderImpl implements DataProvider
 		
 		app.setDenied(input.toLowerCase().startsWith("n"));
 		
+		if (app.isDenied())
+			app.getNotification().setMessage("Vorgesetzer hat abgelehnt");
+		else 
+			app.getNotification().setMessage("Vorgesetzer hat genehmigt");
+
+		
 		return app;
 	}
 
@@ -43,6 +49,12 @@ public class DataProviderImpl implements DataProvider
 		
 		app.setDenied(input.toLowerCase().startsWith("n"));
 		
+		if (app.isDenied())
+			app.getNotification().setMessage("Personalleiter hat abgelehnt");
+		else 
+			app.getNotification().setMessage("Personalleiter hat genehmigt");
+
+		
 		return app;
 	}
 
@@ -54,7 +66,30 @@ public class DataProviderImpl implements DataProvider
 		String input = Console.readLine();
 		
 		app.setDenied(input.toLowerCase().startsWith("n"));
+		
+		if (app.isDenied())
+			app.getNotification().setMessage("Personal Sachbearbeiter hat abgelehnt");
+		else 
+			app.getNotification().setMessage("Personal Sachbearbeiter hat genehmigt");
 
+		return app;
+	}
+
+	@Override
+	public Application checkForCoSuperiorApprovment(Application app) {
+		String text = String.format("%s wants %s days holiday", app.getApplicant(), app.getDays());
+		Console.writeLine(text);
+		Console.writeLine("Do you want to approve? (y, n): ");
+		String input = Console.readLine();
+		
+		app.setDenied(input.toLowerCase().startsWith("n"));
+		
+		if (app.isDenied())
+			app.getNotification().setMessage("Stellvertreter-Vorgesetzer hat abgelehnt");
+		else 
+			app.getNotification().setMessage("Stellvertreter-Vorgesetzer hat genehmigt");
+
+		
 		return app;
 	}
 }

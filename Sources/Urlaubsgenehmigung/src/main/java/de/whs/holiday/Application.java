@@ -5,12 +5,24 @@ public class Application {
 	private int days;
 	private boolean isDenied;
 	private String advisor;
+	private Notification notification;
+	
+	public Application() {
+		this.notification = new Notification();
+	}
 		
+	public Notification getNotification() {
+		return notification;
+	}
+	public void setNotification(Notification notification) {
+		this.notification = notification;
+	}
 	public String getApplicant() {
 		return applicant;
 	}
 	public void setApplicant(String applicant) {
 		this.applicant = applicant;
+		this.notification.setTo(applicant);
 	}
 	public int getDays() {
 		return days;

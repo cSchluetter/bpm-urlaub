@@ -10,4 +10,6 @@ public interface DataProvider
 	Application chechForHrApprovement(Application app);
 
 	Application checkForAvailableDays(Application app);
+
+	Application checkForCoSuperiorApprovment(Application app);
 }

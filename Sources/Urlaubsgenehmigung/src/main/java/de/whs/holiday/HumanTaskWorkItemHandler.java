@@ -55,6 +55,12 @@ public class HumanTaskWorkItemHandler implements WorkItemHandler {
 				app = dataProvider.checkForAvailableDays(app);
 				params.put("application", app);
 				break;
+				
+			case "coSuperiorApprove":
+				app = (Application) workItem.getParameter("application");
+				app = dataProvider.checkForCoSuperiorApprovment(app);
+				params.put("application", app);
+				break;
 		}
 
 		manager.completeWorkItem(workItem.getId(), params);
