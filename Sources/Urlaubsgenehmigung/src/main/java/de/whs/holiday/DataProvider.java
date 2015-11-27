@@ -6,4 +6,8 @@ public interface DataProvider
 	Application getApplication();
 
 	Application checkForApprovement(Application app);
+	
+	Application chechForHrApprovement(Application app);
+
+	Application checkForAvailableDays(Application app);
 }

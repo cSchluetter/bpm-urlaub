@@ -15,7 +15,7 @@ public class HolidayProcessTest {
 			@Override
 			public Application getApplication() {
 				Application app = new Application();
-				app.setApplicant("Hugo");
+				app.setApplicant("ennel");
 				app.setDays(12);
 				app.setDenied(false);
 				return app;
@@ -26,11 +26,22 @@ public class HolidayProcessTest {
 				app.setDenied(true);
 				return app;
 			}
+
+			@Override
+			public Application chechForHrApprovement(Application app) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Application checkForAvailableDays(Application app) {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 		
 		HolidayProcess target = new HolidayProcess(fakeProvider);
 		target.start();
-		
 	}
 
 }

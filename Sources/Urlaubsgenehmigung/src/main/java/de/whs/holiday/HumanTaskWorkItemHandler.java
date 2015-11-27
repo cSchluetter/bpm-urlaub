@@ -7,9 +7,6 @@ import org.kie.api.runtime.process.WorkItem;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
 
-
-
-
 public class HumanTaskWorkItemHandler implements WorkItemHandler {
 
 	private final DataProvider dataProvider;
@@ -37,12 +34,25 @@ public class HumanTaskWorkItemHandler implements WorkItemHandler {
 		switch (taskName) {
 			case "applyForHoliday":
 				app = dataProvider.getApplication();				
-				params.put("application", app);				
+				params.put("application", app);	
+				params.put("approver", app.getSuperiorOfApplicant());
 				break;
 				
-			case "approve":
+			case "superiorApprove":
 				app = (Application)workItem.getParameter("application");
 				app = dataProvider.checkForApprovement(app);
+				params.put("application", app);
+				break;
+				
+			case "headOfHrApprove":
+				app = (Application)workItem.getParameter("application");
+				app = dataProvider.chechForHrApprovement(app);
+				params.put("application", app);
+				break;
+				
+			case "advisorHrApprove":
+				app = (Application)workItem.getParameter("application");
+				app = dataProvider.checkForAvailableDays(app);
 				params.put("application", app);
 				break;
 		}

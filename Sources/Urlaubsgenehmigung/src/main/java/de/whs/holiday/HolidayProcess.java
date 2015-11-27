@@ -39,7 +39,7 @@ public class HolidayProcess {
 		}
 	}
 
-	public static final void main(String[] args) {
+	public static final void main(String[] args) {		
 		HolidayProcess process = new HolidayProcess(new DataProviderImpl());
 		process.start();
 	}
