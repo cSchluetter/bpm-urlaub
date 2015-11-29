@@ -7,6 +7,8 @@ import org.kie.api.runtime.process.WorkItem;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
 
+import de.whs.holiday.data.Application;
+
 public class HumanTaskWorkItemHandler implements WorkItemHandler {
 
 	private final DataProvider dataProvider;

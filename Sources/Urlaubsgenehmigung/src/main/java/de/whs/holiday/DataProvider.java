@@ -1,5 +1,7 @@
 package de.whs.holiday;
 
+import de.whs.holiday.data.Application;
+
 
 public interface DataProvider
 {

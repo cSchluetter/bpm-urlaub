@@ -8,6 +8,8 @@ import org.kie.api.logger.KieRuntimeLogger;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
+import de.whs.holiday.console.DataProviderConsoleImpl;
+
 /**
  * This is a sample file to launch a process.
  */
@@ -47,7 +49,7 @@ public class HolidayProcess {
 	}
 
 	public static final void main(String[] args) {		
-		HolidayProcess process = new HolidayProcess(new DataProviderImpl());
+		HolidayProcess process = new HolidayProcess(new DataProviderConsoleImpl());
 		process.start();
 	}
 

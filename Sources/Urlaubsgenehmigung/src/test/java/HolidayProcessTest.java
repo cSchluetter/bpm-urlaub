@@ -1,8 +1,8 @@
 import org.junit.Test;
 
-import de.whs.holiday.Application;
 import de.whs.holiday.DataProvider;
 import de.whs.holiday.HolidayProcess;
+import de.whs.holiday.data.Application;
 
 
 public class HolidayProcessTest {
