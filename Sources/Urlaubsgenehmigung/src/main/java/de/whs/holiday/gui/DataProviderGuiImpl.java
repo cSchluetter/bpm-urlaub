@@ -31,7 +31,7 @@ public class DataProviderGuiImpl implements DataProvider
 
 	//superior approve
 	@Override
-	public Application checkForApprovement(Application app) {
+	public Application checkForSuperiorApprovement(Application app) {
 		String text = String.format("%s wants %s days holiday", app.getApplicant(), app.getDays());
 		Console.writeLine(text);
 		Console.writeLine("Do you want to approve? (y, n): ");

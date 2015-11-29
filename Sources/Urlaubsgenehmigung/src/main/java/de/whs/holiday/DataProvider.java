@@ -7,7 +7,7 @@ public interface DataProvider
 {
 	Application getApplication();
 
-	Application checkForApprovement(Application app);
+	Application checkForSuperiorApprovement(Application app);
 	
 	Application chechForHrApprovement(Application app);
 

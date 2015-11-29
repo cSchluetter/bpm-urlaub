@@ -1,7 +1,11 @@
+import java.util.HashMap;
+
 import org.junit.Test;
 
 import de.whs.holiday.DataProvider;
 import de.whs.holiday.HolidayProcess;
+import de.whs.holiday.Service;
+import de.whs.holiday.ServiceImpl;
 import de.whs.holiday.data.Application;
 
 
@@ -22,7 +26,7 @@ public class HolidayProcessTest {
 			}
 			
 			@Override
-			public Application checkForApprovement(Application app) {
+			public Application checkForSuperiorApprovement(Application app) {
 				app.setDenied(true);
 				return app;
 			}
@@ -46,8 +50,18 @@ public class HolidayProcessTest {
 			}
 		};
 		
+		
+		Service infoService = new ServiceImpl();
+		Application app = fakeProvider.getApplication();		
+		app.setSuperior(infoService.getSuperior(app.getApplicant()));
+		app.setCosuperior(infoService.getCoSuperior(app.getApplicant()));
+		app.setAdvisor(infoService.getHrAdvisor(app.getApplicant()));
+			
+		HashMap<String, Object> params= new HashMap<String, Object>();
+		params.put("application", app);
+		
 		HolidayProcess target = new HolidayProcess(fakeProvider);
-		target.start();
+		target.start(params);
 	}
 
 }

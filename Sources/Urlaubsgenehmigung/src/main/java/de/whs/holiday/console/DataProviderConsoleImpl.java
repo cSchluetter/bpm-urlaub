@@ -18,31 +18,25 @@ public class DataProviderConsoleImpl implements DataProvider
 		
 		Console.writeLine("Holiday type?");	
 		application.setHolidaytype(Console.readLine());
-		
-		if (application.getApplicant().toUpperCase().charAt(0) < 'L')
-			application.setAdvisor("machfrei");
-		else
-			application.setAdvisor("urlaub");
-		
+				
 		application.setDenied(false);		
 		return application;
 	}
 
 	//superior approve
 	@Override
-	public Application checkForApprovement(Application app) {
-		String text = String.format("%s wants %s days holiday", app.getApplicant(), app.getDays());
+	public Application checkForSuperiorApprovement(Application app) {
+		String text = String.format("%s wants %s day(s) %s holiday", app.getApplicant(), app.getDays(), app.getHolidaytype());
 		Console.writeLine(text);
 		Console.writeLine("Do you want to approve? (y, n): ");
 		String input = Console.readLine();
 		
 		app.setDenied(input.toLowerCase().startsWith("n"));
 		
-		if (app.isDenied())
+		if (app.isDenied()){
 			app.getNotification().setMessage("Vorgesetzer hat abgelehnt");
-		else 
-			app.getNotification().setMessage("Vorgesetzer hat genehmigt");
-
+			app.getNotification().setFrom(app.getSuperior());
+		}
 		
 		return app;
 	}
@@ -50,18 +44,18 @@ public class DataProviderConsoleImpl implements DataProvider
 	//head of hr approve
 	@Override
 	public Application chechForHrApprovement(Application app) {
-		String text = String.format("%s wants %s days holiday", app.getApplicant(), app.getDays());
+		String text = String.format("%s wants %s day(s) %s holiday", app.getApplicant(), app.getDays(), app.getHolidaytype());
 		Console.writeLine(text);
 		Console.writeLine("Do you want to approve? (y, n): ");
 		String input = Console.readLine();
 		
 		app.setDenied(input.toLowerCase().startsWith("n"));
 		
-		if (app.isDenied())
+		if (app.isDenied()){
 			app.getNotification().setMessage("Personalleiter hat abgelehnt");
-		else 
-			app.getNotification().setMessage("Personalleiter hat genehmigt");
-
+			app.getNotification().setFrom("Personalleiter");
+		}
+			
 		
 		return app;
 	}
@@ -69,36 +63,37 @@ public class DataProviderConsoleImpl implements DataProvider
 	//Advisor approve
 	@Override
 	public Application checkForAvailableDays(Application app) {
-		String text = String.format("Have %s engough free days? (y, n)", app.getApplicant());
+		String text = String.format("%s wants %s day(s) %s holiday", app.getApplicant(), app.getDays(), app.getHolidaytype());
+		Console.writeLine(text);
+		text = String.format("Do you want to approve? Have %s engough free days? (y, n)", app.getApplicant());
 		Console.writeLine(text);
 		String input = Console.readLine();
 		
 		app.setDenied(input.toLowerCase().startsWith("n"));
 		
-		if (app.isDenied())
-			app.getNotification().setMessage("Personal Sachbearbeiter hat abgelehnt");
-		else 
-			app.getNotification().setMessage("Personal Sachbearbeiter hat genehmigt");
-
+		if (app.isDenied()) {
+			app.getNotification().setMessage("Personal Sachbearbeiter hat abgelehnt");			
+			app.getNotification().setFrom(app.getAdvisor());			
+		}
+			
 		return app;
 	}
 
 	//co superior approve
 	@Override
 	public Application checkForCoSuperiorApprovment(Application app) {
-		String text = String.format("%s wants %s days holiday", app.getApplicant(), app.getDays());
+		String text = String.format("%s wants %s day(s) %s holiday", app.getApplicant(), app.getDays(), app.getHolidaytype());
 		Console.writeLine(text);
 		Console.writeLine("Do you want to approve? (y, n): ");
 		String input = Console.readLine();
 		
 		app.setDenied(input.toLowerCase().startsWith("n"));
 		
-		if (app.isDenied())
+		if (app.isDenied()){
 			app.getNotification().setMessage("Stellvertreter-Vorgesetzer hat abgelehnt");
-		else 
-			app.getNotification().setMessage("Stellvertreter-Vorgesetzer hat genehmigt");
-
-		
+			app.getNotification().setFrom(app.getCosuperior());
+		}
+				
 		return app;
 	}
 }

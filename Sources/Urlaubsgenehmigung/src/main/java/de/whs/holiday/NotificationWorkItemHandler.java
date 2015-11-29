@@ -16,7 +16,7 @@ public class NotificationWorkItemHandler implements WorkItemHandler {
 		String to = (String) workItem.getParameter("To");
 		String message = (String) workItem.getParameter("Message");
 		
-		String text = String.format("From: %s To %s Message: %s", from, to, message);
+		String text = String.format("From: %s To %s  \n Message: %s", from, to, message);
 		
 		System.out.println(text);
 

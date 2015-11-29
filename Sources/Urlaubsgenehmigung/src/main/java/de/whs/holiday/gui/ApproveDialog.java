@@ -35,6 +35,7 @@ public class ApproveDialog extends JDialog implements ActionListener{
 	 * Create the dialog.
 	 */
 	public ApproveDialog(String text) {
+		setTitle("Urlaubsantrag");
 		setBounds(100, 100, 250, 200);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());

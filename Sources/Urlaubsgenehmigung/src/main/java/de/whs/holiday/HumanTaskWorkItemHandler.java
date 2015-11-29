@@ -32,16 +32,10 @@ public class HumanTaskWorkItemHandler implements WorkItemHandler {
 		Map<String, Object> params = new HashMap<String, Object>();
 		Application app;
 
-		switch (taskName) {
-			case "applyForHoliday":
-				app = dataProvider.getApplication();				
-				params.put("application", app);	
-				params.put("approver", app.getSuperiorOfApplicant());
-				break;
-				
+		switch (taskName) {			
 			case "superiorApprove":
 				app = (Application)workItem.getParameter("application");
-				app = dataProvider.checkForApprovement(app);
+				app = dataProvider.checkForSuperiorApprovement(app);
 				params.put("application", app);
 				break;
 				

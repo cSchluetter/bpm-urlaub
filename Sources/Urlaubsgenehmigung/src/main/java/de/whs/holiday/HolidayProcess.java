@@ -1,14 +1,11 @@
 package de.whs.holiday;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.kie.api.KieServices;
 import org.kie.api.logger.KieRuntimeLogger;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-
-import de.whs.holiday.console.DataProviderConsoleImpl;
 
 /**
  * This is a sample file to launch a process.
@@ -21,11 +18,7 @@ public class HolidayProcess {
 		this.dataProvider = provider;
 	}
 	
-	private Map<String, Object> getParams() {
-		return new HashMap<String, Object>();
-	}
-
-	public void start() {
+	public void start(HashMap<String,Object> params) {
 		try {
 			// load up the knowledge base
 			KieServices ks = KieServices.Factory.get();
@@ -41,16 +34,10 @@ public class HolidayProcess {
 			
 
 			// start a new process instance
-			kSession.startProcess("de.whs.holiday.Urlaubsantrag", getParams());
+			kSession.startProcess("de.whs.holiday.Urlaubsantrag", params);
 			logger.close();
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
 	}
-
-	public static final void main(String[] args) {		
-		HolidayProcess process = new HolidayProcess(new DataProviderConsoleImpl());
-		process.start();
-	}
-
 }
