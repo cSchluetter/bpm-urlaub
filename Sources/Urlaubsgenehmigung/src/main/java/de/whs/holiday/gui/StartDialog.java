@@ -15,13 +15,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import de.whs.holiday.console.Console;
 import de.whs.holiday.data.Application;
 
 @SuppressWarnings("serial")
 public class StartDialog extends JDialog implements ActionListener{
 
 	private final JPanel contentPanel = new JPanel();
-	private  StartActionListener callback = null;
+	private  ApplicationActionListener callback = null;
 	private JTextField txtName;
 	private JTextField txtDays;
 	private JComboBox comboBox;
@@ -29,7 +30,7 @@ public class StartDialog extends JDialog implements ActionListener{
 	/**
 	 * Launch the application.
 	 */
-	public static void run(String text, StartActionListener callback) {
+	public static void start(ApplicationActionListener callback) {
 		try {
 			StartDialog dialog = new StartDialog();
 			dialog.callback = callback;
@@ -87,13 +88,13 @@ public class StartDialog extends JDialog implements ActionListener{
 				cancelButton.addActionListener(this);
 				cancelButton.setActionCommand("cancel");
 				buttonPane.add(cancelButton);
-				getRootPane().setDefaultButton(cancelButton);
 			}
 			{
 				JButton sendButton = new JButton("Abschicken");
 				sendButton.addActionListener(this);
 				sendButton.setActionCommand("send");
 				buttonPane.add(sendButton);
+				getRootPane().setDefaultButton(sendButton);
 			}
 		}
 	}
@@ -102,19 +103,35 @@ public class StartDialog extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		switch (action) {
-		case "cancel":			
+		case "cancel":
+			Console.writeLine("application form cancelled");
 			break;
 			
 		case "send":
 			Application app = new Application();
 			app.setApplicant(txtName.getText());
 			app.setDays(Integer.parseInt(txtDays.getText()));
-			app.setHolidaytype((String)comboBox.getSelectedItem());
+			app.setHolidaytype(comboboxItemsToString(comboBox.getSelectedIndex()));
 			callback.actionPerformed(app);
 			break;		
 		}
 				
 		this.setVisible(false);
 		dispose();
+	}
+	
+	private String comboboxItemsToString(int index){
+		switch (index) {
+		case 0:
+			return "normal";
+		case 1:
+			return "umzug";
+		case 2:
+			return "geburtTodesfall";
+		case 3:
+			return "bonus";
+		default:
+			return "Holidaytype selection error";
+		}
 	}
 }

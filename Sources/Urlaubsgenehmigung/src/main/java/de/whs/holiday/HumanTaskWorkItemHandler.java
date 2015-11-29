@@ -7,7 +7,9 @@ import org.kie.api.runtime.process.WorkItem;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
 
+import de.whs.holiday.console.Console;
 import de.whs.holiday.data.Application;
+import de.whs.holiday.gui.ApplicationActionListener;
 
 public class HumanTaskWorkItemHandler implements WorkItemHandler {
 
@@ -19,45 +21,46 @@ public class HumanTaskWorkItemHandler implements WorkItemHandler {
 		
 	@Override
 	public void abortWorkItem(WorkItem workItem, WorkItemManager manager) {
-		// Nothing to do
-		return;
+		System.out.println("abort WorkItem: " + workItem);
+		manager.abortWorkItem(workItem.getId());
 	}
 
 	@Override
-	public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
-		System.out.println("executeWorkItem: " + workItem);
+	public void executeWorkItem(final WorkItem workItem, final WorkItemManager manager) {
+		System.out.println("execute WorkItem: " + workItem);
 
 		String taskName = (String) workItem.getParameter("TaskName");
 		
-		Map<String, Object> params = new HashMap<String, Object>();
-		Application app;
+		final Map<String, Object> params = new HashMap<String, Object>();
+		Application app = (Application)workItem.getParameter("application");
 
+		ApplicationActionListener callback = new ApplicationActionListener() {
+			@Override
+			public void actionPerformed(Application app) {
+				params.put("application", app);
+				manager.completeWorkItem(workItem.getId(), params);
+				Console.writeLine("completed WorkItem: " + workItem);
+			}
+		};		
+		
 		switch (taskName) {			
 			case "superiorApprove":
-				app = (Application)workItem.getParameter("application");
-				app = dataProvider.checkForSuperiorApprovement(app);
-				params.put("application", app);
+				dataProvider.checkForSuperiorApprovement(app,callback);
 				break;
 				
 			case "headOfHrApprove":
-				app = (Application)workItem.getParameter("application");
-				app = dataProvider.chechForHrApprovement(app);
-				params.put("application", app);
+				dataProvider.checkForHrApprovement(app,callback);
 				break;
 				
 			case "advisorHrApprove":
-				app = (Application)workItem.getParameter("application");
-				app = dataProvider.checkForAvailableDays(app);
-				params.put("application", app);
+				dataProvider.checkForAvailableDays(app,callback);
 				break;
 				
 			case "coSuperiorApprove":
-				app = (Application) workItem.getParameter("application");
-				app = dataProvider.checkForCoSuperiorApprovment(app);
-				params.put("application", app);
+				dataProvider.checkForCoSuperiorApprovment(app,callback);
 				break;
 		}
 
-		manager.completeWorkItem(workItem.getId(), params);
+		
 	}
 }

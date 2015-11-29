@@ -6,6 +6,9 @@ import org.kie.api.KieServices;
 import org.kie.api.logger.KieRuntimeLogger;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.process.WorkItem;
+import org.kie.api.runtime.process.WorkItemHandler;
+import org.kie.api.runtime.process.WorkItemManager;
 
 /**
  * This is a sample file to launch a process.
@@ -13,9 +16,11 @@ import org.kie.api.runtime.KieSession;
 public class HolidayProcess {
 
 	private DataProvider dataProvider;
+	private Notifier notifier;
 	
-	public HolidayProcess(DataProvider provider) {
+	public HolidayProcess(DataProvider provider, Notifier notifier) {
 		this.dataProvider = provider;
+		this.notifier = notifier;
 	}
 	
 	public void start(HashMap<String,Object> params) {
@@ -25,13 +30,10 @@ public class HolidayProcess {
 			KieContainer kContainer = ks.getKieClasspathContainer();
 			KieSession kSession = kContainer.newKieSession("ksession-process");
 
-			KieRuntimeLogger logger = ks.getLoggers().newFileLogger(kSession, "workflowLog");
-			
+			KieRuntimeLogger logger = ks.getLoggers().newFileLogger(kSession, "workflowLog");			
 			
 			kSession.getWorkItemManager().registerWorkItemHandler("Human Task", new HumanTaskWorkItemHandler(dataProvider));
-			kSession.getWorkItemManager().registerWorkItemHandler("Notification", new NotificationWorkItemHandler());
-
-			
+			kSession.getWorkItemManager().registerWorkItemHandler("Notification", new NotificationWorkItemHandler(notifier));
 
 			// start a new process instance
 			kSession.startProcess("de.whs.holiday.Urlaubsantrag", params);

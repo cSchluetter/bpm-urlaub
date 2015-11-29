@@ -27,5 +27,5 @@ public class Notification {
 
 	private String from = "System";
 	private String to;
-	private String message = "Automatisch genehmigt";
+	private String message = "Antrag abgelehnt! Check Urlaubstyp und Anzahl der Tage";
 }

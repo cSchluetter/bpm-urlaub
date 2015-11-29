@@ -2,12 +2,13 @@ package de.whs.holiday.console;
 
 import de.whs.holiday.DataProvider;
 import de.whs.holiday.data.Application;
+import de.whs.holiday.gui.ApplicationActionListener;
 
 
 public class DataProviderConsoleImpl implements DataProvider
 {
 	@Override
-	public Application getApplication() {
+	public void getApplication(ApplicationActionListener callback) {
 		Application application = new Application();
 		
 		Console.writeLine("Applicant: ");
@@ -20,12 +21,13 @@ public class DataProviderConsoleImpl implements DataProvider
 		application.setHolidaytype(Console.readLine());
 				
 		application.setDenied(false);		
-		return application;
+		
+		callback.actionPerformed(application);
 	}
 
 	//superior approve
 	@Override
-	public Application checkForSuperiorApprovement(Application app) {
+	public void checkForSuperiorApprovement(Application app, ApplicationActionListener callback) {
 		String text = String.format("%s wants %s day(s) %s holiday", app.getApplicant(), app.getDays(), app.getHolidaytype());
 		Console.writeLine(text);
 		Console.writeLine("Do you want to approve? (y, n): ");
@@ -38,12 +40,12 @@ public class DataProviderConsoleImpl implements DataProvider
 			app.getNotification().setFrom(app.getSuperior());
 		}
 		
-		return app;
+		callback.actionPerformed(app);
 	}
 
 	//head of hr approve
 	@Override
-	public Application chechForHrApprovement(Application app) {
+	public void checkForHrApprovement(Application app, ApplicationActionListener callback) {
 		String text = String.format("%s wants %s day(s) %s holiday", app.getApplicant(), app.getDays(), app.getHolidaytype());
 		Console.writeLine(text);
 		Console.writeLine("Do you want to approve? (y, n): ");
@@ -56,13 +58,12 @@ public class DataProviderConsoleImpl implements DataProvider
 			app.getNotification().setFrom("Personalleiter");
 		}
 			
-		
-		return app;
+		callback.actionPerformed(app);
 	}
 
 	//Advisor approve
 	@Override
-	public Application checkForAvailableDays(Application app) {
+	public void checkForAvailableDays(Application app, ApplicationActionListener callback) {
 		String text = String.format("%s wants %s day(s) %s holiday", app.getApplicant(), app.getDays(), app.getHolidaytype());
 		Console.writeLine(text);
 		text = String.format("Do you want to approve? Have %s engough free days? (y, n)", app.getApplicant());
@@ -76,12 +77,12 @@ public class DataProviderConsoleImpl implements DataProvider
 			app.getNotification().setFrom(app.getAdvisor());			
 		}
 			
-		return app;
+		callback.actionPerformed(app);
 	}
 
 	//co superior approve
 	@Override
-	public Application checkForCoSuperiorApprovment(Application app) {
+	public void checkForCoSuperiorApprovment(Application app, ApplicationActionListener callback) {
 		String text = String.format("%s wants %s day(s) %s holiday", app.getApplicant(), app.getDays(), app.getHolidaytype());
 		Console.writeLine(text);
 		Console.writeLine("Do you want to approve? (y, n): ");
@@ -94,6 +95,6 @@ public class DataProviderConsoleImpl implements DataProvider
 			app.getNotification().setFrom(app.getCosuperior());
 		}
 				
-		return app;
+		callback.actionPerformed(app);
 	}
 }

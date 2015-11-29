@@ -69,7 +69,7 @@ public class Application {
 	}
 
 	public void setDenied(boolean isDenied) {
-		this.isDenied = isDenied;
+		this.isDenied = this.isDenied | isDenied;
 	}
 
 	public String getAdvisor() {

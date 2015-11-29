@@ -1,17 +1,18 @@
 package de.whs.holiday;
 
 import de.whs.holiday.data.Application;
+import de.whs.holiday.gui.ApplicationActionListener;
 
 
 public interface DataProvider
 {
-	Application getApplication();
+	public void getApplication(ApplicationActionListener callback);
 
-	Application checkForSuperiorApprovement(Application app);
+	public void checkForSuperiorApprovement(Application app, ApplicationActionListener callback);
 	
-	Application chechForHrApprovement(Application app);
+	public void checkForHrApprovement(Application app, ApplicationActionListener callback);
 
-	Application checkForAvailableDays(Application app);
+	public void checkForAvailableDays(Application app, ApplicationActionListener callback);
 
-	Application checkForCoSuperiorApprovment(Application app);
+	public void checkForCoSuperiorApprovment(Application app, ApplicationActionListener callback);
 }

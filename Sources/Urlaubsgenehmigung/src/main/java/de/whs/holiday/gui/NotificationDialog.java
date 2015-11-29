@@ -15,18 +15,16 @@ import javax.swing.JTextPane;
 import de.whs.holiday.console.Console;
 
 @SuppressWarnings("serial")
-public class ApproveDialog extends JDialog implements ActionListener{
+public class NotificationDialog extends JDialog implements ActionListener{
 
 	private final JPanel contentPanel = new JPanel();
-	private  ActionListener callback = null;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void start(String title, String text, ActionListener callback) {
+	public static void start(String title, String text) {
 		try {
-			ApproveDialog dialog = new ApproveDialog(title,text);
-			dialog.callback = callback;
+			NotificationDialog dialog = new NotificationDialog(title,text);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -34,16 +32,10 @@ public class ApproveDialog extends JDialog implements ActionListener{
 		}
 	}
 	
-	@Override
-	public void dispose() {
-		Console.writeLine("disposed dialog");
-		super.dispose();
-	};
-
 	/**
 	 * Create the dialog.
 	 */
-	public ApproveDialog(String title, String text) {
+	public NotificationDialog(String title, String text) {
 		setTitle(title);
 		setBounds(100, 100, 300, 200);
 		getContentPane().setLayout(new BorderLayout());
@@ -59,25 +51,18 @@ public class ApproveDialog extends JDialog implements ActionListener{
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton approveButton = new JButton("Annehmen");
-				approveButton.addActionListener(this);
-				approveButton.setActionCommand("approved");
-				buttonPane.add(approveButton);
-				getRootPane().setDefaultButton(approveButton);
-			}
-			{
-				JButton denyButton = new JButton("Ablehnen");
-				denyButton.addActionListener(this);
-				denyButton.setActionCommand("denied");
-				buttonPane.add(denyButton);
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(this);
+				okButton.setActionCommand("approved");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
 			}
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		callback.actionPerformed(e);
-		this.setVisible(false);		
-		dispose();		
+		this.setVisible(false);
+		this.dispose();
 	}
 }
