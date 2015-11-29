@@ -1,6 +1,7 @@
 package de.whs.holiday.gui;
 
 import de.whs.holiday.DataProvider;
+import de.whs.holiday.console.Console;
 import de.whs.holiday.data.Application;
 
 
