@@ -10,9 +10,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextPane;
-
-import de.whs.holiday.console.Console;
 
 @SuppressWarnings("serial")
 public class NotificationDialog extends JDialog implements ActionListener{

@@ -14,6 +14,9 @@ import de.whs.holiday.gui.ApplicationActionListener;
 public class HumanTaskWorkItemHandler implements WorkItemHandler {
 
 	private final DataProvider dataProvider;
+	private boolean isTimerRunning = false;
+	
+	public boolean isTimerRunning() { return isTimerRunning; }
 
 	public HumanTaskWorkItemHandler(DataProvider dataProvider) {
 		this.dataProvider = dataProvider;
@@ -46,6 +49,7 @@ public class HumanTaskWorkItemHandler implements WorkItemHandler {
 		switch (taskName) {			
 			case "superiorApprove":
 				dataProvider.checkForSuperiorApprovement(app,callback);
+				isTimerRunning = true;
 				break;
 				
 			case "headOfHrApprove":

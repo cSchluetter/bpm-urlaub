@@ -11,8 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import de.whs.holiday.console.Console;
-
 @SuppressWarnings("serial")
 public class ApproveDialog extends JDialog implements ActionListener{
 
@@ -29,12 +27,6 @@ public class ApproveDialog extends JDialog implements ActionListener{
 		dialog.setVisible(true);
 		return dialog;
 	}
-	
-	@Override
-	public void dispose() {
-		Console.writeLine("disposed dialog");
-		super.dispose();
-	};
 
 	/**
 	 * Create the dialog.

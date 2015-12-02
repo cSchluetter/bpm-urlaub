@@ -18,6 +18,7 @@ public class HolidayProcess implements ProcessEventListener {
 	private DataProvider dataProvider;
 	private Notifier notifier;
 	private KieSession kSession;
+	private HumanTaskWorkItemHandler humanTaskWorkItemHandler;
 	
 	public HolidayProcess(DataProvider provider, Notifier notifier) {
 		this.dataProvider = provider;
@@ -32,9 +33,10 @@ public class HolidayProcess implements ProcessEventListener {
 			kSession = kContainer.newKieSession("ksession-process");
 			kSession.addEventListener(this);
 			
-			KieRuntimeLogger logger = ks.getLoggers().newFileLogger(kSession, "workflowLog");			
+			KieRuntimeLogger logger = ks.getLoggers().newFileLogger(kSession, "workflowLog");	
 			
-			kSession.getWorkItemManager().registerWorkItemHandler("Human Task", new HumanTaskWorkItemHandler(dataProvider));
+			humanTaskWorkItemHandler = new HumanTaskWorkItemHandler(dataProvider);			
+			kSession.getWorkItemManager().registerWorkItemHandler("Human Task", humanTaskWorkItemHandler);
 			kSession.getWorkItemManager().registerWorkItemHandler("Notification", new NotificationWorkItemHandler(notifier));
 
 			// start a new process instance
@@ -57,7 +59,8 @@ public class HolidayProcess implements ProcessEventListener {
 
 	@Override
 	public void afterProcessCompleted(ProcessCompletedEvent arg0) {
-		kSession.destroy();
+		if (humanTaskWorkItemHandler.isTimerRunning())
+			kSession.destroy();
 	}
 
 	@Override

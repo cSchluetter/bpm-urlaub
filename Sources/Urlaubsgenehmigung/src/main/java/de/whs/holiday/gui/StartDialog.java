@@ -25,7 +25,7 @@ public class StartDialog extends JDialog implements ActionListener{
 	private  ApplicationActionListener callback = null;
 	private JTextField txtName;
 	private JTextField txtDays;
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 
 	/**
 	 * Launch the application.
@@ -74,8 +74,8 @@ public class StartDialog extends JDialog implements ActionListener{
 			contentPanel.add(lblUrlaubstyp);
 		}
 		{
-			comboBox = new JComboBox();
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {"Normal", "Umzug", "Geburt- oder Todesfall", "Bonus"}));
+			comboBox = new JComboBox<String>();
+			comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Normal", "Umzug", "Geburt- oder Todesfall", "Bonus"}));
 			comboBox.setSelectedIndex(0);
 			contentPanel.add(comboBox);
 		}
