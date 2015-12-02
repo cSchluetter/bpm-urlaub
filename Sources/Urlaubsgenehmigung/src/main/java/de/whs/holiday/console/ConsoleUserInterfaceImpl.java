@@ -1,11 +1,11 @@
 package de.whs.holiday.console;
 
-import de.whs.holiday.DataProvider;
+import de.whs.holiday.UserInterface;
 import de.whs.holiday.data.Application;
 import de.whs.holiday.gui.ApplicationActionListener;
 
 
-public class DataProviderConsoleImpl implements DataProvider
+public class ConsoleUserInterfaceImpl implements UserInterface
 {
 	@Override
 	public void getApplication(ApplicationActionListener callback) {

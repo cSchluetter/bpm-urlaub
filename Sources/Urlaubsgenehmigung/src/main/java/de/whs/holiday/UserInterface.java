@@ -4,7 +4,7 @@ import de.whs.holiday.data.Application;
 import de.whs.holiday.gui.ApplicationActionListener;
 
 
-public interface DataProvider
+public interface UserInterface
 {
 	public void getApplication(ApplicationActionListener callback);
 

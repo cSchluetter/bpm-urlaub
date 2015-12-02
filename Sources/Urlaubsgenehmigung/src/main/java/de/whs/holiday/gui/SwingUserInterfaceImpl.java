@@ -5,12 +5,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
 
-import de.whs.holiday.DataProvider;
+import de.whs.holiday.UserInterface;
 import de.whs.holiday.data.Application;
 import de.whs.holiday.data.Notification;
 
 
-public class DataProviderGuiImpl implements DataProvider
+public class SwingUserInterfaceImpl implements UserInterface
 {	
 	private JDialog superiorDialog;
 	

@@ -15,12 +15,12 @@ import org.kie.api.runtime.KieSession;
 
 public class HolidayProcess implements ProcessEventListener {
 
-	private DataProvider dataProvider;
+	private UserInterface dataProvider;
 	private Notifier notifier;
 	private KieSession kSession;
 	private HumanTaskWorkItemHandler humanTaskWorkItemHandler;
 	
-	public HolidayProcess(DataProvider provider, Notifier notifier) {
+	public HolidayProcess(UserInterface provider, Notifier notifier) {
 		this.dataProvider = provider;
 		this.notifier = notifier;
 	}

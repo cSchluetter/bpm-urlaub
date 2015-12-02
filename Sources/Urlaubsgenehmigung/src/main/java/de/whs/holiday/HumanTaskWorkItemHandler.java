@@ -13,12 +13,12 @@ import de.whs.holiday.gui.ApplicationActionListener;
 
 public class HumanTaskWorkItemHandler implements WorkItemHandler {
 
-	private final DataProvider dataProvider;
+	private final UserInterface dataProvider;
 	private boolean isTimerRunning = false;
 	
 	public boolean isTimerRunning() { return isTimerRunning; }
 
-	public HumanTaskWorkItemHandler(DataProvider dataProvider) {
+	public HumanTaskWorkItemHandler(UserInterface dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 		
