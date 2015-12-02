@@ -101,6 +101,7 @@ public class StartDialog extends JDialog implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		this.setVisible(false);
 		String action = e.getActionCommand();
 		switch (action) {
 		case "cancel":
@@ -115,8 +116,6 @@ public class StartDialog extends JDialog implements ActionListener{
 			callback.actionPerformed(app);
 			break;		
 		}
-				
-		this.setVisible(false);
 		dispose();
 	}
 	

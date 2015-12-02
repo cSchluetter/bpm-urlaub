@@ -60,7 +60,5 @@ public class HumanTaskWorkItemHandler implements WorkItemHandler {
 				dataProvider.checkForCoSuperiorApprovment(app,callback);
 				break;
 		}
-
-		
 	}
 }

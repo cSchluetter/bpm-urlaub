@@ -1,7 +1,7 @@
 package de.whs.holiday;
 
 
-public class ServiceImpl implements Service {
+public class HumanResourceServiceImpl implements HumanResourceService {
 
 	@Override
 	public String getSuperior(String applicant) {

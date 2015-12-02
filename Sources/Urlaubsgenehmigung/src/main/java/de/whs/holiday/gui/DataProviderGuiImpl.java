@@ -3,14 +3,17 @@ package de.whs.holiday.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JDialog;
+
 import de.whs.holiday.DataProvider;
-import de.whs.holiday.console.Console;
 import de.whs.holiday.data.Application;
 import de.whs.holiday.data.Notification;
 
 
 public class DataProviderGuiImpl implements DataProvider
-{
+{	
+	private JDialog superiorDialog;
+	
 	@Override
 	public void getApplication(ApplicationActionListener callback) {
 		StartDialog.start(callback);
@@ -23,7 +26,7 @@ public class DataProviderGuiImpl implements DataProvider
 		denyNotification.setFrom(app.getSuperior());
 		denyNotification.setMessage("Vorgesetzer hat abgelehnt");
 		
-		approve(app, callback,app.getSuperior(), denyNotification);		
+		superiorDialog = approve(app, callback,app.getSuperior(), denyNotification);		
 	}
 
 	//head of hr approve
@@ -49,6 +52,9 @@ public class DataProviderGuiImpl implements DataProvider
 	//co superior approve
 	@Override
 	public void checkForCoSuperiorApprovment(Application app, ApplicationActionListener callback) {
+		if (superiorDialog != null)
+			superiorDialog.dispose();
+		
 		Notification denyNotification = new Notification();
 		denyNotification.setFrom(app.getCosuperior());
 		denyNotification.setMessage("Stellvertreter-Vorgesetzer hat abgelehnt");
@@ -56,10 +62,10 @@ public class DataProviderGuiImpl implements DataProvider
 		approve(app, callback,app.getCosuperior(), denyNotification);	
 	}
 	
-	private void approve(final Application app, final ApplicationActionListener callback,String approver, final Notification denyNotification){
+	private JDialog approve(final Application app, final ApplicationActionListener callback,String approver, final Notification denyNotification){
 		String title = String.format("Urlaubsantrag - was tun, %s?", approver);
 		String text = String.format("%s möchte %s Tag(e) Urlaub - Typ: %s", app.getApplicant(), app.getDays(), app.getHolidaytype());
-		ApproveDialog.start(title,text, new ActionListener() {
+		JDialog dialog = ApproveDialog.start(title,text, new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -81,5 +87,6 @@ public class DataProviderGuiImpl implements DataProvider
 				callback.actionPerformed(app);
 			}
 		});		
+		return dialog;
 	}
 }

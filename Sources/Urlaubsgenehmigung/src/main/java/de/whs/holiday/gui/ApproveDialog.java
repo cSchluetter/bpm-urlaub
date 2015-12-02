@@ -10,7 +10,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextPane;
 
 import de.whs.holiday.console.Console;
 
@@ -23,15 +22,12 @@ public class ApproveDialog extends JDialog implements ActionListener{
 	/**
 	 * Launch the application.
 	 */
-	public static void start(String title, String text, ActionListener callback) {
-		try {
-			ApproveDialog dialog = new ApproveDialog(title,text);
-			dialog.callback = callback;
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public static JDialog start(String title, String text, ActionListener callback) {
+		ApproveDialog dialog = new ApproveDialog(title,text);
+		dialog.callback = callback;
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
+		return dialog;
 	}
 	
 	@Override
