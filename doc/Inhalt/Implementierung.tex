@@ -1,6 +1,19 @@
 \section{Implementierung}
+In diesem Kapitel wollen wir auf die Implementierung unseres Prototypen eingehen.
+
+
 \subsection{Vorstellung des Ablaufs}
-	-ungefähren Ablauf skizzieren
+Bevor wir auf die konkrete Implementierung eingehen, wollen wir zunächst den grundsätzlichen Ablauf des Prozesses anhand einer Skizze beschreiben:
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{Bilder/Workflow}
+\caption{Skizze des Prozessablaufs}
+\label{fig:Workflow}
+\end{figure}
+
+Hat ein Mitarbeiter einen Urlaubsantrag ausgefüllt startet ein neuer Urlaubsgenehmigungsprozess. Der Antrag muss an verschiedenen Stellen geprüft werden. In unserem Beispielunternehmen muss der Urlaubsantrag durch den Vorgesetzten und ggf. dem Leiter der Personalabteilung genehmigt werden. Da die Reihenfolge hierbei keine Rolle spielt, können die beiden Schritte parallel ausgeführt werden. Abschließend prüft die Personalabteilung, ob der Mitarbeiter noch über genügend freie Urlaubstage verfügt und genehmigt bzw. verweigert den Antrag.	
+	
+	
 \subsection{Systemübersicht}
 	-Überblick verschaffen / Komponenten
 		-Datenmodell (Application und Notification)
@@ -8,13 +21,39 @@
 		-Workflow
 		-GUI (JDialogs und Console)
 
-\subsection{Datenmodell}
+\subsubsection{Datenmodell}
+Wie Abbildung \ref{fig:Datenmodell} zeigt, besteht unser Datenmodell aus zwei Klassen:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{Bilder/Datenmodell}
+\caption{Datenmodell unserer Anwendung}
+\label{fig:Datenmodell}
+\end{figure}
+
+In der Klasse Application werden alle Daten gespeichert, die für den Urlaubsantrag relevant sind. Neben dem Antragssteller (applicant) werden die Anzahl der Werktage (days) und der Typ des Urlaubs (holidaytype) gespeichert. Außerdem ist der Vorgesetzte (superior), der Stellvertreter (cosuperior) und der zuständige Sachbearbeiter (advisor) hinterlegt. Außerdem speichern wir den Antragsstatus (isDenied) und eine dazugehörige Benachrichtigung (notification), die der Mitarbeiter abschließend erhält.
+
+Die Klasse Notification repräsentiert die Daten für eine Benachrichtigung. Hier werden Absender, Empfänger und die Nachricht hinterlegt. 
 
 \subsection{Schnittstellen}
+Abbildung \ref{fig:Schnittstellen} zeigt die Schnittstellen unserer Anwendung:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Bilder/Schnittstellen}
+\caption{Schnittstellen unserer Anwendung}
+\label{fig:Schnittstellen}
+\end{figure}
+
+Über das UserInterface wird die Interaktion mit dem Endanwender realisiert. Die Funktionen repräsentieren dabei die verschiedenen Prozessschritte wie beispielsweise "`Genehmigung durch Vorgesetzten"' oder "`Prüfung ausreichend freier Urlaubstage"'. In unserer Anwendung gibt es zwei Implementierungen für das Interface: Eine Konsolenanwendung und eine GUI die wir mit Swing realisiert haben.
+
+Die Schnittstelle HumanResourceService ermöglicht es uns den Vorgesetzten, Stellvertreter und zuständigen Personalsachbearbeiter für den Antragssteller zu ermitteln. In einer realen Unternehmensanwendung könnte man hier beispielsweise das Active-Directory hinterlegen. Für unseren Prototyp haben wir die Personalhierarchie unseres Beispielunternehmens statisch hinterlegt.
 
 \subsection{Business Workflow}
 
-\begin{figure}
+Beschreibung der einzelnen Prozessschritte 
+
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.7\linewidth]{Bilder/Urlaubsantrag}
 \caption{}
