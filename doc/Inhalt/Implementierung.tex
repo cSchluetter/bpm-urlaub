@@ -35,7 +35,7 @@ In der Klasse Application werden alle Daten gespeichert, die für den Urlaubsant
 
 Die Klasse Notification repräsentiert die Daten für eine Benachrichtigung. Hier werden Absender, Empfänger und die Nachricht hinterlegt. 
 
-\subsection{Schnittstellen}
+\subsubsection{Schnittstellen}
 Abbildung \ref{fig:Schnittstellen} zeigt die Schnittstellen unserer Anwendung:
 
 \begin{figure}[H]
@@ -49,9 +49,15 @@ Abbildung \ref{fig:Schnittstellen} zeigt die Schnittstellen unserer Anwendung:
 
 Die Schnittstelle HumanResourceService ermöglicht es uns den Vorgesetzten, Stellvertreter und zuständigen Personalsachbearbeiter für den Antragssteller zu ermitteln. In einer realen Unternehmensanwendung könnte man hier beispielsweise das Active-Directory hinterlegen. Für unseren Prototyp haben wir die Personalhierarchie unseres Beispielunternehmens statisch hinterlegt.
 
-\subsection{Business Workflow}
+\subsection{Der Urlaubsgenehmigungsprozess}
 
-Beschreibung der einzelnen Prozessschritte 
+\subsubsection{Benutzerdefinierte Aufgabe: Notification}
+
+\subsubsection{Der Workflow}
+Der Workflow startet mit einem Urlaubsantrag (application), der die initialen Daten für den Prozess mitbringt. Der erste Knoten \textit{holiday type} ist ein Exklusives Oder und unterscheidet anhand des Urlaubstyps und der gewünschten Anzahl Urlaubstage, ob dieser automatisch abgelehnt (rechts, default), automatisch (links) oder manuell (mittig) genehmigt werden muss. Die beiden automatischen Zweige (links und rechts) führen auf direktem Wege durch einen inklusiven Oder-Knoten zum Notification Task und anschließend zum Ende des Workflows.\\
+Der mittlere Zweig der manuellen Genehmigung unterscheidet im nächsten Knoten, dem Exklusiven Oder \textit{board member}, ob der Genehmigungsprozess durch Vorgesetzte und den Leiter der Personalabteilung übersprungen werden darf (links). Dies ist der Fall, wenn die beantragende Person Vorstandsmitglied ist und weniger als 5 Tage Urlaub beantragt. Sollte dies nicht der Fall sein ist der nächste Knoten ein Inklusives Oder. In jedem Fall wird von dort aus der Zweig zur Genehmigung durch den Vorgesetzten (mitte) durchlaufen. Sollten mehr als 20 Tage Urlaub beantragt werden, so wird ebenfalls der Zweig zur Genehmigung durch den Leiter der Personalabteilung durchlaufen (rechts). Diese beiden Zweige können parallel abgearbeitet werden, weshalb das Inklusive Oder \textit{additional HR} notwendig ist. Die Genehmigungen werden jeweils durch User Tasks abgebildet.
+
+Im rechten Zweig ist dieser dem Leiter der Personalabteilung zugewiesen. Wichtig ist, dass im Anschluss dieser Zweig mit dem mittleren synchronisiert wird.
 
 \begin{figure}[H]
 \centering
@@ -59,6 +65,7 @@ Beschreibung der einzelnen Prozessschritte
 \caption{Unser Workflow zur Urlaubsgenehmigung}
 \label{fig:Urlaubsantrag}
 \end{figure}
+
 
 
 
