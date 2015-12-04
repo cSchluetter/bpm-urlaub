@@ -15,6 +15,14 @@ Hat ein Mitarbeiter einen Urlaubsantrag ausgefüllt startet ein neuer Urlaubsgen
 	
 	
 \subsection{Systemübersicht}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Bilder/Komponenten}
+\caption{Eine Übersicht der beteiligten Komponenten}
+\label{fig:Komponenten}
+\end{figure}
+
 	-Überblick verschaffen / Komponenten
 		-Datenmodell (Application und Notification)
 		-Schnittstellen
@@ -35,19 +43,34 @@ In der Klasse Application werden alle Daten gespeichert, die für den Urlaubsant
 
 Die Klasse Notification repräsentiert die Daten für eine Benachrichtigung. Hier werden Absender, Empfänger und die Nachricht hinterlegt. 
 
-\subsection{Schnittstellen}
-Abbildung \ref{fig:Schnittstellen} zeigt die Schnittstellen unserer Anwendung:
+\subsubsection{Schnittstellen}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1.0\linewidth]{Bilder/Schnittstellen}
-\caption{Schnittstellen unserer Anwendung}
-\label{fig:Schnittstellen}
+\includegraphics[width=0.7\linewidth]{Bilder/SchnittstelleUserInterface}
+\caption{Die Schnittstelle UserInterface}
+\label{fig:SchnittstelleUserInterface}
 \end{figure}
 
-Über das UserInterface wird die Interaktion mit dem Endanwender realisiert. Die Funktionen repräsentieren dabei die verschiedenen Prozessschritte wie beispielsweise "`Genehmigung durch Vorgesetzten"' oder "`Prüfung ausreichend freier Urlaubstage"'. In unserer Anwendung gibt es zwei Implementierungen für das Interface: Eine Konsolenanwendung und eine GUI die wir mit Swing realisiert haben.
+Abbildung \ref{fig:SchnittstelleUserInterface} zeigt das UserInterface worüber die Interaktion mit dem Endanwender realisiert wird. Die Funktionen repräsentieren dabei die verschiedenen Prozessschritte wie beispielsweise "`Genehmigung durch Vorgesetzten"' oder "`Prüfung ausreichend freier Urlaubstage"'. In unserer Anwendung gibt es zwei Implementierungen für das Interface: Eine Konsolenanwendung und eine GUI die wir in Swing realisiert haben.
 
-Die Schnittstelle HumanResourceService ermöglicht es uns den Vorgesetzten, Stellvertreter und zuständigen Personalsachbearbeiter für den Antragssteller zu ermitteln. In einer realen Unternehmensanwendung könnte man hier beispielsweise das Active-Directory hinterlegen. Für unseren Prototyp haben wir die Personalhierarchie unseres Beispielunternehmens statisch hinterlegt.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.35\linewidth]{Bilder/SchnittstelleNotifier}
+\caption{Die Schnittstelle Notifier}
+\label{fig:SchnittstelleNotifier}
+\end{figure}
+
+Zum Verschicken von Benachrichtigungen haben wir die Schnittstelle Notifier (s. Abbildung \ref{fig:SchnittstelleNotifier}) definiert. Für eine reale Unternehmensanwendung könnte man sich hier beispielsweise einen E-Mail-Dienst vorstellen. In unserer Anwendung haben wir die Benachrichtigung über eine Ausgabe in der GUI realisiert.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.3\linewidth]{Bilder/SchnittstelleHumanResourceService}
+\caption{Die Schnittstelle HumanResourceService}
+\label{fig:SchnittstelleHumanResourceService}
+\end{figure}
+
+Abbildung \ref{fig:SchnittstelleHumanResourceService} zeigt die Schnittstelle HumanResourceService, die es uns ermöglicht den Vorgesetzten, Stellvertreter und zuständigen Personalsachbearbeiter für den Antragssteller zu ermitteln. In der Realität könnte man hier beispielsweise das Active-Directory des Unternehmens einbinden. Für unseren Prototyp haben wir die Personalhierarchie unseres Beispielunternehmens statisch hinterlegt.
 
 \subsection{Business Workflow}
 
