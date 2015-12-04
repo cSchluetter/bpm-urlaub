@@ -1,5 +1,5 @@
 \section{Aufgabenstellung}
-Unsere Aufgabenstellung ist es einen Workflow zur Urlaubsgenehmigung in einem Unternehmens nachzubilden. Dabei sollen bestimmte Geschäftsregeln (s. Abschnitt \ref{Geschäftsregeln}) auf eine beispielhafte Personalhierarchie (s. Abschnitt \ref{Personalhierarchie}) abgebildet werden.
+Unsere Aufgabenstellung ist es einen Workflow zur Urlaubsgenehmigung in einem Unternehmen nachzubilden. Dabei sollen bestimmte Geschäftsregeln (s. Abschnitt \ref{Geschäftsregeln}) auf eine beispielhafte Personalhierarchie (s. Abschnitt \ref{Personalhierarchie}) abgebildet werden.
 
 Ziel unserer Aufgabe ist die Entwicklung einer prototypischen Anwendung, die den Urlaubsgenehmigungsprozess in einem BPMN-Diagramm zeigt und eine Interaktion mit dem Endanwender ermöglicht.
 
@@ -45,4 +45,7 @@ Im Beispielunternehmen ist die folgende Personalhierarchie gegeben:
 \end{figure}
 \footnotetext{Quelle: Aufgabe Urlaubsgenehmigung jBPM.pdf}
 
-Bei der Personalabteilung ist es wichtig zu erwähnen, dass es zwei Sachbearbeiter mit unterschiedlichen Zuständigkeiten gibt. Herr Machfrei ist für die Mitarbeiter im Bereich der Namen von A bis K zuständig. Herr Urlaub bearbeitet die übrigen Namen von L bis Z.
+Es gibt einige Besonderheiten, die an dieser Stelle erwähnt werden sollten. So gibt es in der Personalabteilung zwei Sachbearbeiter mit unterschiedlichen Zuständigkeiten. Herr Machfrei ist für die Mitarbeiter, deren Nachname mit einem Buchstaben zwischen A und K beginnen, zuständig. Herr Urlaub bearbeitet die übrigen, deren Nachnamen mit L bis Z beginnen.\\
+Des Weiteren ist der Vorgesetzte im abteilungsübergreifenden Falle immer der Leiter der entsprechend höheren Abteilung. Gleiches gilt für den stellvertretenden Vorgesetzten. Für die Vorstandsebene ergibt sich eine Besonderheit. Der "Vorgesetzte" des Oberboss ist der Vizeboss. Der stellvertretende Vorgesetzte des Oberboss ist somit wiederum der Oberboss selbst.
+
+
