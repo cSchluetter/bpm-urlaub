@@ -122,6 +122,61 @@ Im rechten Zweig ist dieser dem Leiter der Personalabteilung zugewiesen. Wichtig
 \end{figure}
 
 
+\subsection{Benutzeroberfläche}
+In diesem Abschnitt wollen wir unsere Swing-Benutzeroberfläche, die aus insgesamt drei Dialogen besteht, vorstellen.
+
+\subsubsection{StartDialog}
+Über den StartDialog kann der Mitarbeiter einen neuen Urlaubsgenehmigungsprozess starten. Dazu muss er seinen Namen, die Anzahl der Urlaubstage und den Typ seines Urlaubs eingeben. Über die Combobox kann er zwischen den vier Möglichkeiten Normal, Umzug, Geburt- oder Todesfall und Bonus auswählen.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Bilder/DialogUrlaubBeantragen}
+	\caption{Screenshot des StartDialoges}
+	\label{fig:DialogUrlaubBeantragen}
+\end{figure}
+
+Durch einen Klick auf den Button Abschicken wird ein neuer Prozess gestartet. Alternativ kann der Mitarbeiter den Vorgang auch abbrechen.
+
+\subsubsection{ApproveDialog}
+Der ApproveDialog wird verwendet um einen Urlaubsantrag entweder zu genehmigen oder abzulehnen. Da diese Entscheidung in unserem Prozess an mehreren Stellen nötig ist, kommt der Dialog auch entsprechend mehrmals zum Einsatz.
+
+Zunächst muss der Urlaubsantrag durch den Vorgesetzten genehmigt werden. Im Fall von Frau Antje ist die entsprechende Vorgesetzte Frau Ennel:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{Bilder/DialogVorgesetzteGenehmigung}
+	\caption{Screenshot des ApproveDialogs für die Genehmigung des Vorgesetzten}
+	\label{fig:DialogVorgesetzteGenehmigung}
+\end{figure}
+
+Sofern der Vorgesetzte den Antrag genehmigt muss dieser in der Personalabteilung durch den zuständigen Sachbearbeiter geprüft werden. Im Fall von Frau Antje ist der zuständige Sachbearbeiter Herr Machfrei:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{Bilder/DialogPersonalabteilungGenehmigung}
+\caption{Screenshot des ApproveDialos für die Genehmigung in der Personalabteilung}
+\label{fig:DialogPersonalabteilungGenehmigung}
+\end{figure}
+
+Über die beiden Buttons Annehmen und Ablehnen kann der Antrag genehmigt bzw. abgelehnt werden.
+
+\subsubsection{NotifierDialog}
+Über den NotifierDialog wird der Antragssteller benachrichtigt, ob sein Urlaubsantrag genehmigt oder abgelehnt wurde:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{Bilder/DialogBenachrichtigungGenehmigt}
+\caption{Screenshot des NotifierDialogs für einen genehmigten Urlaubsantrag}
+\label{fig:DialogBenachrichtigungGenehmigt}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{Bilder/DialogBenachrichtigungAbgelehnt}
+\caption{Screenshot des NotifierDialogs für einen abgelehnten Urlaubsantrag}
+\label{fig:DialogBenachrichtigungAbgelehnt}
+\end{figure}
+
+Über den OK-Button kann die Benachrichtigung geschlossen werden.
 
 
-\subsection{GUI}
