@@ -13,13 +13,13 @@ import de.whs.holiday.gui.ApplicationActionListener;
 
 public class HumanTaskWorkItemHandler implements WorkItemHandler {
 
-	private final UserInterface dataProvider;
+	private final UserInterface userInterface;
 	private boolean isTimerRunning = false;
 	
 	public boolean isTimerRunning() { return isTimerRunning; }
 
-	public HumanTaskWorkItemHandler(UserInterface dataProvider) {
-		this.dataProvider = dataProvider;
+	public HumanTaskWorkItemHandler(UserInterface userInterface) {
+		this.userInterface = userInterface;
 	}
 		
 	@Override
@@ -48,20 +48,20 @@ public class HumanTaskWorkItemHandler implements WorkItemHandler {
 		
 		switch (taskName) {			
 			case "superiorApprove":
-				dataProvider.checkForSuperiorApprovement(app,callback);
+				userInterface.checkForSuperiorApprovement(app,callback);
 				isTimerRunning = true;
 				break;
 				
 			case "headOfHrApprove":
-				dataProvider.checkForHrApprovement(app,callback);
+				userInterface.checkForHrApprovement(app,callback);
 				break;
 				
 			case "advisorHrApprove":
-				dataProvider.checkForAvailableDays(app,callback);
+				userInterface.checkForAvailableDays(app,callback);
 				break;
 				
 			case "coSuperiorApprove":
-				dataProvider.checkForCoSuperiorApprovment(app,callback);
+				userInterface.checkForCoSuperiorApprovment(app,callback);
 				break;
 		}
 	}
