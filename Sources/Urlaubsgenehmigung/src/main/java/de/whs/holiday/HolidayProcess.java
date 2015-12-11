@@ -15,13 +15,13 @@ import org.kie.api.runtime.KieSession;
 
 public class HolidayProcess implements ProcessEventListener {
 
-	private UserInterface dataProvider;
+	private UserInterface userInterface;
 	private Notifier notifier;
 	private KieSession kSession;
 	private HumanTaskWorkItemHandler humanTaskWorkItemHandler;
 	
 	public HolidayProcess(UserInterface provider, Notifier notifier) {
-		this.dataProvider = provider;
+		this.userInterface = provider;
 		this.notifier = notifier;
 	}
 	
@@ -35,7 +35,7 @@ public class HolidayProcess implements ProcessEventListener {
 			
 			KieRuntimeLogger logger = ks.getLoggers().newFileLogger(kSession, "workflowLog");	
 			
-			humanTaskWorkItemHandler = new HumanTaskWorkItemHandler(dataProvider);			
+			humanTaskWorkItemHandler = new HumanTaskWorkItemHandler(userInterface);			
 			kSession.getWorkItemManager().registerWorkItemHandler("Human Task", humanTaskWorkItemHandler);
 			kSession.getWorkItemManager().registerWorkItemHandler("Notification", new NotificationWorkItemHandler(notifier));
 
