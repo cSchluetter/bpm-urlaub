@@ -11,22 +11,22 @@ Zunächst beschreiben wir dazu den grundsätzlichen Ablauf des Prozesses anhand 
 \label{fig:Workflow}
 \end{figure}
 
-Hat ein Mitarbeiter einen Urlaubsantrag ausgefüllt startet ein neuer Urlaubsgenehmigungsprozess. Der Antrag muss an verschiedenen Stellen geprüft werden. In unserem Beispielunternehmen muss der Urlaubsantrag durch den Vorgesetzten und ggf. dem Leiter der Personalabteilung genehmigt werden. Da die Reihenfolge hierbei keine Rolle spielt, können die beiden Schritte parallel ausgeführt werden. Abschließend prüft die Personalabteilung, ob der Mitarbeiter noch über genügend freie Urlaubstage verfügt und genehmigt bzw. verweigert den Antrag.	
+Hat ein Mitarbeiter einen Urlaubsantrag ausgefüllt startet ein neuer Urlaubsgenehmigungsprozess. Der Antrag muss an verschiedenen Stellen geprüft werden. In unserem Beispielunternehmen muss der Urlaubsantrag durch den Vorgesetzten und ggf. den Leiter der Personalabteilung genehmigt werden. Da die Reihenfolge hierbei keine Rolle spielt, können die beiden Schritte parallel ausgeführt werden. Abschließend prüft die Personalabteilung, ob der Mitarbeiter noch über genügend freie Urlaubstage verfügt und genehmigt bzw. verweigert den Antrag.	
 	
 	
 \subsection{Systemübersicht}
-Abbildung \ref{fig:Komponenten} stellt eine Übersicht unseres Systems dar. Um einen neuen Urlaubsgenehmigungsprozess starten zu können, müssen zunächst die erforderlichen Daten wie Name, Anzahl der Tage und Urlaubstyp vom Mitarbeiter eingegeben werden. Diese Daten werden im Urlaubsantragsobjekt Application, was über die Schnittstelle UserInterface angelegt wird, gespeichert.
+Abbildung \ref{fig:Komponenten} stellt eine Übersicht unseres Systems dar. Um einen neuen Urlaubsgenehmigungsprozess starten zu können, müssen zunächst die erforderlichen Daten wie Name, Anzahl der Tage und Urlaubstyp vom Mitarbeiter eingegeben werden. Diese Daten werden im Urlaubsantragsobjekt Application, welches über die Schnittstelle UserInterface angelegt wird, gespeichert.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1.0\linewidth]{Bilder/Komponenten}
+\includegraphics[width=0.93\linewidth]{Bilder/Komponenten}
 \caption{Eine Übersicht der beteiligten Komponenten}
 \label{fig:Komponenten}
 \end{figure}
 
-Nach Eingabe der Daten, wird eine neue KieSession erzeugt und ein neuer HolidayProcess gestartet. Dieser benötigt zur Abarbeitung der Workflow-Schritte insgesamt zwei WorkItemHandler. Der HumanTaskWorkItemHandler realisiert die Interaktion mit dem Endanwender und benötigt dazu die Schnittstelle UserInterface. Dabei werden die eingegebenen Daten ebenfalls in dem Datenobjekt Application gespeichert. Der NotificationWorkItemHandler ist für die Benachrichtigung der Mitarbeiter zuständig und verwendet dazu die Schnittstelle Notifier. Daten die für das Benachrichtigen von Mitarbeitern relevant sind werden in dem Datenobjekt Notification gespeichert.
+Nach Eingabe der Daten, wird eine neue KieSession erzeugt und ein neuer HolidayProcess gestartet. Dieser benötigt zur Abarbeitung der Workflow-Schritte insgesamt zwei WorkItemHandler. Der HumanTaskWorkItemHandler realisiert die Interaktion mit dem Endanwender und benötigt dazu die Schnittstelle UserInterface. Dabei werden die eingegebenen Daten jeweils in dem Datenobjekt Application gespeichert. Der NotificationWorkItemHandler ist für die Benachrichtigung der Mitarbeiter zuständig und verwendet dazu die Schnittstelle Notifier. Daten, die für das Benachrichtigen von Mitarbeitern relevant sind, werden in dem Datenobjekt Notification gespeichert.
 
-Das verwendete Datenmodell und die benötigten Schnittstellen werden in den folgenden Abschnitten nun näher beschrieben.
+Das verwendete Datenmodell und die benötigten Schnittstellen werden in den folgenden Abschnitten näher beschrieben.
 
 \subsubsection{Datenmodell}
 Wie Abbildung \ref{fig:Datenmodell} zeigt, besteht unser Datenmodell insgesamt aus zwei Klassen:
@@ -38,7 +38,7 @@ Wie Abbildung \ref{fig:Datenmodell} zeigt, besteht unser Datenmodell insgesamt a
 \label{fig:Datenmodell}
 \end{figure}
 
-In der Klasse Application werden alle Daten gespeichert, die für den Urlaubsantrag relevant sind. Neben dem Antragssteller (applicant) werden die Anzahl der Werktage (days) und der Typ des Urlaubs (holidaytype) gespeichert. Zudem ist der Vorgesetzte (superior), der Stellvertreter (cosuperior) und der zuständige Sachbearbeiter (advisor) hinterlegt. Außerdem speichern wir den Antragsstatus (isDenied) und eine dazugehörige Benachrichtigung (notification), die der Mitarbeiter abschließend erhält.
+In der Klasse Application werden alle Daten gespeichert, die für den Urlaubsantrag relevant sind. Neben dem Antragssteller (applicant) werden die Anzahl der Werktage (days) und der Typ des Urlaubs (holidaytype) gespeichert. Zudem ist der Vorgesetzte (superior), dessen Stellvertreter (cosuperior) und der zuständige Sachbearbeiter (advisor) hinterlegt. Außerdem speichern wir den Antragsstatus (isDenied) und eine dazugehörige Benachrichtigung (notification), die der Mitarbeiter abschließend erhält.
 
 Die Klasse Notification repräsentiert die Daten für eine Benachrichtigung. Hier werden Absender, Empfänger und die Nachricht hinterlegt. 
 
@@ -51,7 +51,7 @@ Die Klasse Notification repräsentiert die Daten für eine Benachrichtigung. Hie
 \label{fig:SchnittstelleUserInterface}
 \end{figure}
 
-Abbildung \ref{fig:SchnittstelleUserInterface} zeigt das UserInterface worüber die Interaktion mit dem Endanwender realisiert wird. Die Funktionen repräsentieren dabei die verschiedenen Prozessschritte wie beispielsweise "`Genehmigung durch Vorgesetzten"' oder "`Prüfung ausreichend freier Urlaubstage"'. In unserer Anwendung gibt es zwei Implementierungen für das Interface: Eine Konsolenanwendung und eine GUI die wir in Swing realisiert haben.
+Abbildung \ref{fig:SchnittstelleUserInterface} zeigt das UserInterface, worüber die Interaktion mit dem Endanwender realisiert wird. Die Funktionen repräsentieren dabei die verschiedenen Prozessschritte wie beispielsweise "`Genehmigung durch Vorgesetzten"' oder "`Prüfung ausreichend freier Urlaubstage"'. In unserer Anwendung gibt es zwei Implementierungen für das Interface: Eine Konsolenanwendung und eine GUI, die wir in Swing realisiert haben.
 
 \begin{figure}[H]
 \centering
@@ -60,7 +60,7 @@ Abbildung \ref{fig:SchnittstelleUserInterface} zeigt das UserInterface worüber 
 \label{fig:SchnittstelleNotifier}
 \end{figure}
 
-Zum Verschicken von Benachrichtigungen haben wir die Schnittstelle Notifier (s. Abbildung \ref{fig:SchnittstelleNotifier}) definiert. Für eine reale Unternehmensanwendung könnte man sich hier beispielsweise einen E-Mail-Dienst vorstellen. In unserer Anwendung haben wir die Benachrichtigung über eine Ausgabe in der GUI realisiert.
+Zum Verschicken von Benachrichtigungen haben wir die Schnittstelle Notifier (s. Abbildung \ref{fig:SchnittstelleNotifier}) definiert. Für eine reale Unternehmensanwendung könnte man sich hier beispielsweise einen E-Mail-Dienst vorstellen. In unserer Anwendung haben wir die Benachrichtigung über eine Ausgabe in der Konsole bzw. Swing-GUI realisiert.
 
 \begin{figure}[H]
 \centering
@@ -69,12 +69,13 @@ Zum Verschicken von Benachrichtigungen haben wir die Schnittstelle Notifier (s. 
 \label{fig:SchnittstelleHumanResourceService}
 \end{figure}
 
-Abbildung \ref{fig:SchnittstelleHumanResourceService} zeigt die Schnittstelle HumanResourceService, die es uns ermöglicht den Vorgesetzten, Stellvertreter und zuständigen Personalsachbearbeiter für den Antragssteller zu ermitteln. In der Realität könnte man hier beispielsweise das Active-Directory des Unternehmens einbinden. Für unseren Prototyp haben wir die Personalhierarchie unseres Beispielunternehmens statisch hinterlegt.
+Abbildung \ref{fig:SchnittstelleHumanResourceService} zeigt die Schnittstelle HumanResourceService, die es uns ermöglicht den Vorgesetzten, Stellvertreter und zuständigen Personalsachbearbeiter für den Antragssteller zu ermitteln. In der Realität könnte man hier beispielsweise das Active-Directory des Unternehmens oder eine gesonderte Anwendung einbinden. Für unseren Prototyp haben wir die Personalhierarchie unseres Beispielunternehmens, wie in Abbildung \ref{fig:Hierarchie} dargestellt, statisch hinterlegt.
 
+\newpage
 \subsection{Business Workflow}
 
 \subsubsection{Benutzerdefinierte Aufgabe: Notification}
-Um die Benachrichtigung des Mitarbeiters als einzelnen Prozessschritt in unserem BPMN-Diagramm zu realisieren fehlte uns im Standard ein entsprechender Aufgabentyp. Daher haben wir diesen als benutzerdefinierte Aufgabe erstellt. Diese muss ein einer Konfigurationsdatei definiert werden, auf die dann innerhalb der drools.rulebase.conf wie folgt verwiesen werden kann:
+Um die Benachrichtigung des Mitarbeiters als einzelnen Prozessschritt in unserem BPMN-Diagramm zu realisieren, fehlte uns im Standard ein entsprechender Aufgabentyp. Daher haben wir diesen als benutzerdefinierte Aufgabe erstellt. Diese muss ein einer Konfigurationsdatei definiert werden, auf die dann innerhalb der drools.rulebase.conf wie folgt verwiesen werden kann:
 \begin{lstlisting}
 drools.workDefinitions = HolidayWorkDefinitions.wid WorkDefinitions.conf
 \end{lstlisting}
@@ -100,6 +101,7 @@ import org.drools.core.process.core.datatype.impl.type.StringDataType;
 
 Anschließend steht diese Aufgabe im Prozessdesigner als "`Custom Task"' zur Verfügung und kann innerhalb der Prozessdefinition wie die üblichen Elemente verwendet werden:
 
+\vspace{20pt}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.4\linewidth]{Bilder/NotificationCustomTask}
@@ -107,21 +109,33 @@ Anschließend steht diese Aufgabe im Prozessdesigner als "`Custom Task"' zur Ver
 \label{fig:NotificationCustomTask}
 \end{figure}
 
+Die definierten Felder finden sich in den Eigenschaften der benutzerdefinierten Aufgabe wieder und können entsprechend gefüllt werden:
 
-\subsubsection{Der Workflow}
-Der Workflow startet mit einem Urlaubsantrag (application), der die initialen Daten für den Prozess mitbringt. Der erste Knoten \textit{holiday type} ist ein Exklusives Oder und unterscheidet anhand des Urlaubstyps und der gewünschten Anzahl Urlaubstage, ob dieser automatisch abgelehnt (rechts, default), automatisch (links) oder manuell (mittig) genehmigt werden muss. Die beiden automatischen Zweige (links und rechts) führen auf direktem Wege durch den jeweiligen Inklusiven Oder-Knoten zum Notification Task und anschließend zum Ende des Workflows.\\
-Der mittlere Zweig der manuellen Genehmigung unterscheidet im nächsten Knoten, dem Exklusiven Oder \textit{board member}, ob der Genehmigungsprozess durch Vorgesetzte und den Leiter der Personalabteilung übersprungen werden darf (links). Dies ist der Fall, wenn die beantragende Person Vorstandsmitglied ist und weniger als 5 Tage Urlaub beantragt. Sollte dies nicht der Fall sein, ist der nächste Knoten das Inklusive Oder \textit{additional HR}. In jedem Fall wird von dort aus der Zweig zur Genehmigung durch den Vorgesetzten (mittig) durchlaufen. Sollten mehr als 20 Tage Urlaub beantragt werden, so wird ebenfalls der Zweig zur Genehmigung durch den Leiter der Personalabteilung durchlaufen (rechts). Diese beiden Zweige können parallel abgearbeitet werden, weshalb das Inklusive Oder \textit{additional HR} notwendig ist. Die Genehmigungen werden jeweils durch User Tasks abgebildet.\\
-Im mittleren Zweig wird die Aufgabe dem Vorgesetzten zugewiesen. Dieser User Task \textit{Superior approve} ist um einen Timer erweitert, welcher dafür sorgt, dass die Aufgabe, falls diese nicht in der festgelegten Zeitspanne von 3 Tagen erledigt ist, an den Stellvertreter weitergereicht wird. Dazu verweist der Timer auf den User Task \textit{Co superior approve}. Die Pfade des Vorgesetzten und seines Stellvertreters werden mithilfe des Inklusiven Oders \textit{superior or co} zusammengeführt.\\
-Im rechten Zweig ist der User Task dem Leiter der Personalabteilung zugewiesen. Wichtig ist, dass im Anschluss an die Aufgabe dieser Zweig mit dem mittleren wieder synchronisiert wird. Dazu dienen das Exklusive Oder \textit{additional HR} und das Und \textit{sync superior and HR}. Das Exklusive Oder stellt die Entscheidung dar, ob synchronisiert werden muss, was der Fall ist, wenn zuvor durch eine Beantragung von mehr als 20 Tagen die Personalleitung eingeschaltet wurde. Das Und führt die Synchronisation durch, da es erst weiterschaltet, wenn beide Pfade an diesem Punkt angekommen sind.\\
-In dem anschließenden Inklusiven Oder \textit{board member or superior and/or HR} werden die möglichen Pfade des Genehmigungsprozesses durch Vorgesetzte und Personalleitung mit dem des Vorstandsmitglieds zusammengeführt. Das nachfolgende Inklusive Oder \textit{approved/denied} prüft den Status des Antrags. Ist der Antrag an dieser Stelle im Status abgelehnt, führt dies auf direktem Wege (rechts) durch den Inklusiven Oder-Knoten \textit{denied} zum Notification Task und anschließend zum Ende des Workflows. Ist der Status allerdings genehmigt, so wird der Antrag im Folgenden mittels des User Tasks \textit{Advisor hr approve} an den Personalsachbearbeiter gereicht (mittig). Dessen Entscheidung wird im nächsten Knoten, dem Inklusiven Oder \textit{approved or denied} ausgewertet. Hat der Sachbearbeiter den Antrag abgelehnt (rechts), so wird der Vorgesetzte mit einer gesonderten Notification davon unterrichtet, bevor der Pfad ebenfalls durch den Inklusiven Oder-Knoten \textit{denied} zum Notification Task und anschließend zum Ende des Workflows führt. Hat der Sachbearbeiter hingegen den Antrag genehmigt (links), wird der Pfad mit dem der automatischen Genehmigung im Inklusiven Oder \textit{Auto or Advisor} zusammengeführt, bevor der Workflow nach einer Notification endet. 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\linewidth]{Bilder/EditCustomTask}
+\caption{Eigenschaften der benutzerdefinierten Aufgabe Notification}
+\label{fig:EditCustomTask}
+\end{figure}
 
 
+\subsubsection{Der Urlaubsgenehmigungsprozess als BPMN-Diagramm}
+Der Workflow ist der elementare Bestandteil unserer Anwendung, in dem die Geschäftsregeln abgebildet werden. Abbildung \ref{fig:Urlaubsantrag} zeigt unseren Urlaubsgenehmigungsprozesses in einem BPMN 2.0 Diagramm.
 
+Unser Workflow startet mit einem Urlaubsantrag (application), der die initialen Daten für den Prozess mitbringt. Der erste Knoten \textit{holiday type} ist ein Exklusives Oder und unterscheidet anhand des Urlaubstyps und der gewünschten Anzahl Urlaubstage, ob dieser automatisch abgelehnt (rechts, default), automatisch (links) oder manuell (mittig) genehmigt werden muss. Die beiden automatischen Zweige (links und rechts) führen auf direktem Wege durch den jeweiligen Inklusiven Oder-Knoten zum Notification Task und anschließend zum Ende des Workflows.
+
+Der mittlere Zweig der manuellen Genehmigung unterscheidet im nächsten Knoten, dem Exklusiven Oder \textit{board member}, ob der Genehmigungsprozess durch Vorgesetzte und den Leiter der Personalabteilung übersprungen werden darf (links). Dies ist der Fall, wenn die beantragende Person Vorstandsmitglied ist und weniger als 5 Tage Urlaub beantragt. Sollte dies nicht der Fall sein, ist der nächste Knoten das Inklusive Oder \textit{additional HR}. In jedem Fall wird von dort aus der Zweig zur Genehmigung durch den Vorgesetzten (mittig) durchlaufen. Sollten mehr als 20 Tage Urlaub beantragt werden, so wird ebenfalls der Zweig zur Genehmigung durch den Leiter der Personalabteilung fortgesetzt (rechts). Damit diese beiden Zweige parallel abgearbeitet werden können, ist ein Inklusives Oder am Knoten \textit{additional HR} notwendig. Die Genehmigungen werden jeweils durch User Tasks abgebildet.
+
+Im mittleren Zweig wird die Aufgabe dem Vorgesetzten zugewiesen. Dieser User Task \textit{Superior approve} ist um einen Timer erweitert, welcher dafür sorgt, dass die Aufgabe, falls diese nicht in der festgelegten Zeitspanne von 3 Tagen erledigt ist, an den Stellvertreter weitergereicht wird. Dazu verweist der Timer auf den User Task \textit{Co superior approve}. Die Pfade des Vorgesetzten und seines Stellvertreters werden mithilfe des Inklusiven Oders \textit{superior or co} zusammengeführt.
+
+Im rechten Zweig ist der User Task dem Leiter der Personalabteilung zugewiesen. Wichtig ist, dass im Anschluss an die Aufgabe dieser Zweig mit dem mittleren wieder synchronisiert wird. Dazu dienen das Exklusive Oder \textit{additional HR} und das Und \textit{sync superior and HR}. Das Exklusive Oder stellt die Entscheidung dar, ob synchronisiert werden muss, was der Fall ist, wenn zuvor durch eine Beantragung von mehr als 20 Tagen die Personalleitung eingeschaltet wurde. Das Und führt die Synchronisation durch, da der Arbeitsfluss erst fortgesetzt wird, wenn beide Pfade an diesem Punkt angelangt sind.
+
+In dem anschließenden Inklusiven Oder \textit{board member or superior and/or HR} werden die möglichen Pfade des Genehmigungsprozesses durch Vorgesetzte und Personalleitung mit dem des Vorstandsmitglieds zusammengeführt. Das nachfolgende Inklusive Oder \textit{approved/denied} prüft den Status des Antrags. Ist der Antrag an dieser Stelle im Status abgelehnt, führt dies auf direktem Wege (rechts) durch den Inklusiven Oder-Knoten \textit{denied} zum Notification Task und anschließend zum Ende des Workflows. Ist der Status allerdings genehmigt, so wird der Antrag im Folgenden mittels des User Tasks \textit{Advisor hr approve} an den Personalsachbearbeiter gereicht (mittig). Dessen Entscheidung wird im nächsten Knoten, dem Inklusiven Oder \textit{approved or denied}, ausgewertet. Hat der Sachbearbeiter den Antrag abgelehnt (rechts), so wird der Vorgesetzte mit einer gesonderten Notification davon unterrichtet, bevor der Pfad ebenfalls durch den Inklusiven Oder-Knoten \textit{denied} zum Notification Task und anschließend zum Ende des Workflows führt. Hat der Sachbearbeiter hingegen den Antrag genehmigt (links), wird der Pfad mit dem der automatischen Genehmigung im Inklusiven Oder \textit{Auto or Advisor} zusammengeführt, bevor der Workflow nach einer Notification endet. 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\linewidth]{Bilder/Urlaubsantrag}
-\caption{Unser Workflow zur Urlaubsgenehmigung}
+\caption{Das BPMN-Diagramm unseres Urlaubsgenehmigungsprozesses}
 \label{fig:Urlaubsantrag}
 \end{figure}
 
@@ -142,9 +156,11 @@ In diesem Abschnitt wollen wir unsere Swing-Benutzeroberfläche, die aus insgesa
 Durch einen Klick auf den Button Abschicken wird ein neuer Prozess gestartet. Alternativ kann der Mitarbeiter den Vorgang auch abbrechen.
 
 \subsubsection{ApproveDialog}
-Der ApproveDialog wird verwendet um einen Urlaubsantrag entweder zu genehmigen oder abzulehnen. Da diese Entscheidung in unserem Prozess an mehreren Stellen nötig ist, kommt der Dialog auch entsprechend mehrmals zum Einsatz.
+Der ApproveDialog wird verwendet um einen Urlaubsantrag entweder zu genehmigen oder abzulehnen. Da diese Entscheidung in unserem Prozess an mehreren Stellen nötig ist, kommt der Dialog mehrmals zum Einsatz.
 
-Zunächst muss der Urlaubsantrag durch den Vorgesetzten genehmigt werden. Im Fall von Frau Antje ist die entsprechende Vorgesetzte Frau Ennel:
+Im Titel des Dialogfensters steht die zuständige Person, die für die Abarbeitung dieses Schritte verantwortlich ist. In dem Dialog werden die Informationen, welcher Mitarbeiter wie viele Tage Urlaub eines bestimmten Urlaubstyps beantragt hat, angezeigt.
+
+Abbildung \ref{fig:DialogVorgesetzteGenehmigung} zeigt ein entsprechendes Dialogfenster zur Genehmigung eines Urlaubsantrages am Beispiel von Frau Antje. Als Vorgesetzte von Frau Antje ist Frau Ennel für die Genehmigung des Antrags zuständig.
 
 \begin{figure}[H]
 	\centering
@@ -153,19 +169,12 @@ Zunächst muss der Urlaubsantrag durch den Vorgesetzten genehmigt werden. Im Fal
 	\label{fig:DialogVorgesetzteGenehmigung}
 \end{figure}
 
-Sofern der Vorgesetzte den Antrag genehmigt muss dieser in der Personalabteilung durch den zuständigen Sachbearbeiter geprüft werden. Im Fall von Frau Antje ist der zuständige Sachbearbeiter Herr Machfrei:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{Bilder/DialogPersonalabteilungGenehmigung}
-\caption{Screenshot des ApproveDialos für die Genehmigung in der Personalabteilung}
-\label{fig:DialogPersonalabteilungGenehmigung}
-\end{figure}
-
 Über die beiden Buttons Annehmen und Ablehnen kann der Antrag genehmigt bzw. abgelehnt werden.
 
 \subsubsection{NotifierDialog}
-Über den NotifierDialog wird der Antragssteller benachrichtigt, ob sein Urlaubsantrag genehmigt oder abgelehnt wurde:
+Der NotifierDialog wird genutzt um Endanwendern eine Benachrichtigung anzuzeigen. Im Titel des Dialogfensters steht neben dem Empfänger auch der Absender der Nachricht. Innerhalb des Dialogfensters wird die Nachricht dargestellt.
+
+Abbildung \ref{fig:DialogBenachrichtigungGenehmigt} zeigt den entsprechenden Dialog für den genehmigten Urlaubsantrag von Frau Antje. Da der Antrag genehmigt wurde kommt die Nachricht vom System. Im Falle einer Ablehnung wäre der Absender derjenige, der den Antrag abgelehnt hat.
 
 \begin{figure}[H]
 \centering
@@ -174,13 +183,4 @@ Sofern der Vorgesetzte den Antrag genehmigt muss dieser in der Personalabteilung
 \label{fig:DialogBenachrichtigungGenehmigt}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{Bilder/DialogBenachrichtigungAbgelehnt}
-\caption{Screenshot des NotifierDialogs für einen abgelehnten Urlaubsantrag}
-\label{fig:DialogBenachrichtigungAbgelehnt}
-\end{figure}
-
 Über den OK-Button kann die Benachrichtigung geschlossen werden.
-
-

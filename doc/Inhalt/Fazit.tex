@@ -1,14 +1,14 @@
 \section{Fazit}
-- KieWorkbench auf den ersten Blick zwar cool, aber produktiv nicht zu benutzten, schade, da die Abarbeitung von Workflows durch die Anmeldung der verschiedenen Benutzer ziemlich realtitätsnah simuliert werden kann.
+Als Ergebnis der Realisierung ist eine prototypische Anwendung entstanden, die den Urlaubsgenehmigungsprozess in einem BPMN-Diagramm abbildet und über eine in Swing realisierte Benutzeroberfläche die Interaktion mit dem Endanwender ermöglicht.
 
-- Durch die fehlerhafte Generierung des BPMN Diagram XMLs mehrmals kompletten Workflow zerlegt, daher schneller Umstieg auf Eclipse
+Für die Umsetzung der Aufgabe standen uns das Eclipse-BPMN-Plugin und die KIE Workbench zur Verfügung. Die KIE Workbench hat uns auf den ersten Blick gut gefallen. Durch die Anmeldung unterschiedlicher Benutzer konnte der Ablauf von Prozessen ziemlich realitätsnah simuliert werden. Da der Prozessdesigner jedoch mehrfach fehlerhaftes XML erzeugt hat und damit das BPMN-Diagramm nicht mehr anzeigen konnte haben wir unsere Anwendung letztendlich in Eclipse und dem BPMN Modeler 2.0 Plugin realisiert.
 
-- Eclipse Pluging nett, alle Möglichkeiten offen, haben wir intensiv genutzt. Schön war das wir hier mit Schnittstellen gearbeitet haben udn so relativ einfach die Implementierung austauschen können. Beispiel: Wir haben zwei Oberflächen implementiert. Zu Anfang über Konsole gearbeitet dann "`richtige"' GUI in Swing gemacht. Ohne bestehenden Code anzupassen konnten wir das ändern.
+Das Eclipse-Plugin hat uns eine einfache Möglichkeit gegeben den Prozess in einem grafischen Prozessdesigner zu gestalten. Besonders gut gefallen hat uns die Tatsache, dass wir die entsprechenden WorkItemHandler in Java implementieren konnten. So waren wir in der Lage alle externen Abhängigkeiten hinter Schnittstellen zu verstecken und deren Implementierungen einfach auszutauschen. Beispielsweise haben wir zu Beginn unseres Projektes alle Eingaben über die Konsole realisiert und erst später eine Benutzeroberfläche in Swing implementiert.
 
-- Logger bleibt nach dem ersten Callback aus der GUI auf der Strecke
+Die Implementierung der Benutzerschnittstelle musste asynchron erfolgen um beispielsweise Parallelität im Workflow zu ermöglichen. In diesem Zusammenhang ist uns aufgefallen, dass der Logger nur mit einem sequentiellem Prozessablauf umgehen kann. Aufgrund unserer Asynchronizität protokolliert der Logger nur bis zur ersten Benutzerinteraktion.
 
-- Asynchronität scheint ein Problem zu sein...
+Insgesamt haben wir für uns festgestellt, dass sich Geschäftsprozesse relativ gut abbilden lassen. Auch die Implementierung eigener "`Custom Tasks"' stellt kein großes Problem da. So ist die Entwicklungsumgebung flexibel und bietet alle nötigen Möglichkeiten einen vollständigen Geschäftsprozess digital abzubilden.
 
-- Fehler konnten wir mit Hilfe des Debuggers schnell finden. Auch 
+Über das, was wir bisher realisiert haben, hinaus sind weitere Funktionen vorstellbar. Beispielsweise macht eine Persistierung der personenbezogenen Daten Sinn, so dass eine automatische Überprüfung über ausreichend Resturlaubs durchgeführt werden kann. Damit könnte die manuelle Überprüfung in der Personalabteilung entfallen. Außerdem wäre es sinnvoll den Zustand des Workflows zu persistieren, so dass Prozessinstanzen auch nach einem Rechnerausfall weiterhin zur Verfügung stehen. Darüber hinaus ist es denkbar weitere Enterprise Services in den Workflow zu integrieren. Beispielsweise könnte in unserem Prozess die Ermittlung der Vorgesetzten über ein Active-Directory realisiert werden. Des Weiteren könnte die Benachrichtigung der Mitarbeiter über einen E-Mail-Dienst erfolgen. Zusätzliche Erweiterungen oder Anpassungen sind selbstverständlich vorstellbar.
 
-- Insgesamt gut zu benutzen und für die Implementierung diverse Geschäftsprozesse wie in diesem Falle einen Urlaubsantrag gut geeignet. 
+Unsere prototypische Anwendung erfüllt die grundlegenden Anforderungen an einen Urlaubsgenehmigungsprozess, die flexibel erweitert und angepasst werden kann und uns einen guten Einblick in das Thema Business Process Modelling gewährt hat.
