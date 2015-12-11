@@ -15,6 +15,7 @@ Hat ein Mitarbeiter einen Urlaubsantrag ausgefüllt startet ein neuer Urlaubsgen
 	
 	
 \subsection{Systemübersicht}
+Abbildung \ref{fig:Komponenten} stellt eine Übersicht unseres Systems dar. Um einen neuen Urlaubsgenehmigungsprozess starten zu können, müssen zunächst die erforderlichen Daten wie Name, Anzahl der Tage und Urlaubstyp vom Mitarbeiter eingegeben werden. Diese Daten werden im Urlaubsantragsobjekt Application, was über die Schnittstelle UserInterface angelegt wird, gespeichert.
 
 \begin{figure}[H]
 \centering
@@ -23,14 +24,12 @@ Hat ein Mitarbeiter einen Urlaubsantrag ausgefüllt startet ein neuer Urlaubsgen
 \label{fig:Komponenten}
 \end{figure}
 
-	-Überblick verschaffen / Komponenten
-		-Datenmodell (Application und Notification)
-		-Schnittstellen
-		-Workflow
-		-GUI (JDialogs und Console)
+Nach Eingabe der Daten, wird eine neue KieSession erzeugt und ein neuer HolidayProcess gestartet. Dieser benötigt zur Abarbeitung der Workflow-Schritte insgesamt zwei WorkItemHandler. Der HumanTaskWorkItemHandler realisiert die Interaktion mit dem Endanwender und benötigt dazu die Schnittstelle UserInterface. Dabei werden die eingegebenen Daten ebenfalls in dem Datenobjekt Application gespeichert. Der NotificationWorkItemHandler ist für die Benachrichtigung der Mitarbeiter zuständig und verwendet dazu die Schnittstelle Notifier. Daten die für das Benachrichtigen von Mitarbeitern relevant sind werden in dem Datenobjekt Notification gespeichert.
+
+Das verwendete Datenmodell und die benötigten Schnittstellen werden in den folgenden Abschnitten nun näher beschrieben.
 
 \subsubsection{Datenmodell}
-Wie Abbildung \ref{fig:Datenmodell} zeigt, besteht unser Datenmodell aus zwei Klassen:
+Wie Abbildung \ref{fig:Datenmodell} zeigt, besteht unser Datenmodell insgesamt aus zwei Klassen:
 
 \begin{figure}[H]
 \centering
@@ -39,12 +38,12 @@ Wie Abbildung \ref{fig:Datenmodell} zeigt, besteht unser Datenmodell aus zwei Kl
 \label{fig:Datenmodell}
 \end{figure}
 
-In der Klasse Application werden alle Daten gespeichert, die für den Urlaubsantrag relevant sind. Neben dem Antragssteller (applicant) werden die Anzahl der Werktage (days) und der Typ des Urlaubs (holidaytype) gespeichert. Außerdem ist der Vorgesetzte (superior), der Stellvertreter (cosuperior) und der zuständige Sachbearbeiter (advisor) hinterlegt. Außerdem speichern wir den Antragsstatus (isDenied) und eine dazugehörige Benachrichtigung (notification), die der Mitarbeiter abschließend erhält.
+In der Klasse Application werden alle Daten gespeichert, die für den Urlaubsantrag relevant sind. Neben dem Antragssteller (applicant) werden die Anzahl der Werktage (days) und der Typ des Urlaubs (holidaytype) gespeichert. Zudem ist der Vorgesetzte (superior), der Stellvertreter (cosuperior) und der zuständige Sachbearbeiter (advisor) hinterlegt. Außerdem speichern wir den Antragsstatus (isDenied) und eine dazugehörige Benachrichtigung (notification), die der Mitarbeiter abschließend erhält.
 
 Die Klasse Notification repräsentiert die Daten für eine Benachrichtigung. Hier werden Absender, Empfänger und die Nachricht hinterlegt. 
 
 \subsubsection{Schnittstellen}
-
+\label{subsubsec:Schnittstellen}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\linewidth]{Bilder/SchnittstelleUserInterface}
@@ -75,6 +74,39 @@ Abbildung \ref{fig:SchnittstelleHumanResourceService} zeigt die Schnittstelle Hu
 \subsection{Business Workflow}
 
 \subsubsection{Benutzerdefinierte Aufgabe: Notification}
+Um die Benachrichtigung des Mitarbeiters als einzelnen Prozessschritt in unserem BPMN-Diagramm zu realisieren fehlte uns im Standard ein entsprechender Aufgabentyp. Daher haben wir diesen als benutzerdefinierte Aufgabe erstellt. Diese muss ein einer Konfigurationsdatei definiert werden, auf die dann innerhalb der drools.rulebase.conf wie folgt verwiesen werden kann:
+\begin{lstlisting}
+drools.workDefinitions = HolidayWorkDefinitions.wid WorkDefinitions.conf
+\end{lstlisting}
+
+Die Definition für unsere benutzerdefinierte Aufgabe haben wir in der HolidayWorkDefinitions.wid wie folgt vorgenommen:
+
+\begin{lstlisting}
+import org.drools.core.process.core.datatype.impl.type.StringDataType;
+[
+  // the Notification work item
+  [
+    "name" : "Notification",
+    "parameters" : [
+      "Message" : new StringDataType(),
+      "From" : new StringDataType(),
+      "To" : new StringDataType()
+    ],
+    "displayName" : "Notification",
+    "icon" : ""
+  ]
+]
+\end{lstlisting}
+
+Anschließend steht diese Aufgabe im Prozessdesigner als "`Custom Task"' zur Verfügung und kann innerhalb der Prozessdefinition wie die üblichen Elemente verwendet werden:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\linewidth]{Bilder/NotificationCustomTask}
+\caption{Der CustomTask Notification}
+\label{fig:NotificationCustomTask}
+\end{figure}
+
 
 \subsubsection{Der Workflow}
 Der Workflow startet mit einem Urlaubsantrag (application), der die initialen Daten für den Prozess mitbringt. Der erste Knoten \textit{holiday type} ist ein Exklusives Oder und unterscheidet anhand des Urlaubstyps und der gewünschten Anzahl Urlaubstage, ob dieser automatisch abgelehnt (rechts, default), automatisch (links) oder manuell (mittig) genehmigt werden muss. Die beiden automatischen Zweige (links und rechts) führen auf direktem Wege durch einen inklusiven Oder-Knoten zum Notification Task und anschließend zum Ende des Workflows.\\
