@@ -15,7 +15,7 @@ Hat ein Mitarbeiter einen Urlaubsantrag ausgefüllt startet ein neuer Urlaubsgen
 	
 	
 \subsection{Systemübersicht}
-Abbildung \ref{fig:Komponenten} stellt eine Übersicht unseres Systems dar. Um einen neuen Urlaubsgenehmigungsprozess starten zu können, müssen zunächst die erforderlichen Daten wie Name, Anzahl der Tage und Urlaubstyp vom Mitarbeiter eingegeben werden. Diese Daten werden im Urlaubsantragsobjekt Application, welches über die Schnittstelle UserInterface angelegt wird, gespeichert.
+Abbildung \ref{fig:Komponenten} stellt eine Übersicht unseres Systems dar. Um einen neuen Urlaubsgenehmigungsprozess starten zu können, müssen zunächst die erforderlichen Daten wie Name, Anzahl der Tage und Urlaubstyp vom Mitarbeiter eingegeben werden. Diese Daten werden im Urlaubsantragsobjekt Application\footnote{Mit Application ist hier der Antrag und nicht die Anwendung gemeint.}, welches über die Schnittstelle UserInterface angelegt wird, gespeichert.
 
 \begin{figure}[H]
 \centering
@@ -75,7 +75,7 @@ Abbildung \ref{fig:SchnittstelleHumanResourceService} zeigt die Schnittstelle Hu
 \subsection{Business Workflow}
 
 \subsubsection{Benutzerdefinierte Aufgabe: Notification}
-Um die Benachrichtigung des Mitarbeiters als einzelnen Prozessschritt in unserem BPMN-Diagramm zu realisieren, fehlte uns im Standard ein entsprechender Aufgabentyp. Daher haben wir diesen als benutzerdefinierte Aufgabe erstellt. Diese muss ein einer Konfigurationsdatei definiert werden, auf die dann innerhalb der drools.rulebase.conf wie folgt verwiesen werden kann:
+Um die Benachrichtigung des Mitarbeiters als einzelnen Prozessschritt in unserem BPMN-Diagramm zu realisieren, fehlte uns im Standard ein entsprechender Aufgabentyp. Daher haben wir diesen als benutzerdefinierte Aufgabe erstellt. Diese muss in einer Konfigurationsdatei definiert werden, auf die dann innerhalb der drools.rulebase.conf wie folgt verwiesen werden kann:
 \begin{lstlisting}
 drools.workDefinitions = HolidayWorkDefinitions.wid WorkDefinitions.conf
 \end{lstlisting}
@@ -122,7 +122,7 @@ Die definierten Felder finden sich in den Eigenschaften der benutzerdefinierten 
 \subsubsection{Der Urlaubsgenehmigungsprozess als BPMN-Diagramm}
 Der Workflow ist der elementare Bestandteil unserer Anwendung, in dem die Geschäftsregeln abgebildet werden. Abbildung \ref{fig:Urlaubsantrag} zeigt unseren Urlaubsgenehmigungsprozesses in einem BPMN 2.0 Diagramm.
 
-Unser Workflow startet mit einem Urlaubsantrag (application), der die initialen Daten für den Prozess mitbringt. Der erste Knoten \textit{holiday type} ist ein Exklusives Oder und unterscheidet anhand des Urlaubstyps und der gewünschten Anzahl Urlaubstage, ob dieser automatisch abgelehnt (rechts, default), automatisch (links) oder manuell (mittig) genehmigt werden muss. Die beiden automatischen Zweige (links und rechts) führen auf direktem Wege durch den jeweiligen Inklusiven Oder-Knoten zum Notification Task und anschließend zum Ende des Workflows.
+Unser Workflow startet mit einem Urlaubsantrag (application), der die initialen Daten für den Prozess mitbringt. Der erste Knoten \textit{holiday type} ist ein exklusives Oder und unterscheidet anhand des Urlaubstyps und der gewünschten Anzahl Urlaubstage, ob der Antrag automatisch abgelehnt (rechts, default), automatisch (links) oder manuell (mittig) genehmigt werden muss. Die beiden automatischen Zweige (links und rechts) führen auf direktem Wege durch den jeweiligen Inklusiven Oder-Knoten zum Notification Task und anschließend zum Ende des Workflows.
 
 Der mittlere Zweig der manuellen Genehmigung unterscheidet im nächsten Knoten, dem Exklusiven Oder \textit{board member}, ob der Genehmigungsprozess durch Vorgesetzte und den Leiter der Personalabteilung übersprungen werden darf (links). Dies ist der Fall, wenn die beantragende Person Vorstandsmitglied ist und weniger als 5 Tage Urlaub beantragt. Sollte dies nicht der Fall sein, ist der nächste Knoten das Inklusive Oder \textit{additional HR}. In jedem Fall wird von dort aus der Zweig zur Genehmigung durch den Vorgesetzten (mittig) durchlaufen. Sollten mehr als 20 Tage Urlaub beantragt werden, so wird ebenfalls der Zweig zur Genehmigung durch den Leiter der Personalabteilung fortgesetzt (rechts). Damit diese beiden Zweige parallel abgearbeitet werden können, ist ein Inklusives Oder am Knoten \textit{additional HR} notwendig. Die Genehmigungen werden jeweils durch User Tasks abgebildet.
 
