@@ -1,3 +1,4 @@
+\newpage
 \section{Implementierung}
 In diesem Kapitel wollen wir auf die Implementierung unseres Prototypen eingehen.
 
@@ -27,7 +28,7 @@ Abbildung \ref{fig:Komponenten} stellt eine Übersicht unseres Systems dar. Um e
 Nach Eingabe der Daten, wird eine neue KieSession erzeugt und ein neuer HolidayProcess gestartet. Dieser benötigt zur Abarbeitung der Workflow-Schritte insgesamt zwei WorkItemHandler. Der HumanTaskWorkItemHandler realisiert die Interaktion mit dem Endanwender und benötigt dazu die Schnittstelle UserInterface. Dabei werden die eingegebenen Daten jeweils in dem Datenobjekt Application gespeichert. Der NotificationWorkItemHandler ist für die Benachrichtigung der Mitarbeiter zuständig und verwendet dazu die Schnittstelle Notifier. Daten, die für das Benachrichtigen von Mitarbeitern relevant sind, werden in dem Datenobjekt Notification gespeichert.
 
 Das verwendete Datenmodell und die benötigten Schnittstellen werden in den folgenden Abschnitten näher beschrieben.
-
+\newpage
 \subsubsection{Datenmodell}
 Wie Abbildung \ref{fig:Datenmodell} zeigt, besteht unser Datenmodell insgesamt aus zwei Klassen:
 
